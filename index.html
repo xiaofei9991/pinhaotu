@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Primary Meta Tags -->
+    <title>Picgle: Create & Share Secret Image Puzzles</title>
+    <meta name="title" content="Picgle: Create & Share Secret Image Puzzles">
+    <meta name="description" content="Turn any photo into a secret puzzle! Shatter your image into artistic fragments, share them on social media, and let your friends collect the pieces to reveal the hidden picture. The ultimate 'image blind box' experience.">
+    <meta name="keywords" content="image puzzle, photo puzzle, secret image, social media game, picture blind box, photo fragments, interactive post, online puzzle maker, 图片盲盒, 图片解谜, 社交游戏">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="Picgle: Create & Share Secret Image Puzzles">
+    <meta property="og:description" content="Turn any photo into a secret 'blind box'! Shatter your image, share the pieces, and let your friends solve the puzzle.">
+    <meta property="og:image" content="https://your-domain.com/social-preview.png"> <!-- 建议你创建一个1200x630的预览图 -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-domain.com/">
+    <meta property="twitter:title" content="Picgle: Create & Share Secret Image Puzzles">
+    <meta property="twitter:description" content="Turn any photo into a secret 'blind box'! Shatter your image, share the pieces, and let your friends solve the puzzle.">
+    <meta property="twitter:image" content="https://your-domain.com/social-preview.png"> <!-- 同上 -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff4757; /* A more playful, vibrant color */
+            --primary-hover-color: #e04050;
+            --secondary-color: #3498db;
+            --secondary-hover-color: #2980b9;
+            --light-bg: #fdfcff;
+            --card-bg: #ffffff;
+            --text-color: #2c3a47;
+            --text-light-color: #576574;
+            --border-color: #dfe4ea;
+            --shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* --- Base & Layout --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .hidden { display: none !important; }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* --- Header --- */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+        .page-header p.subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light-color);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        
+        /* --- How It Works Section --- */
+        .how-it-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        .step-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--border-color);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .step-card:hover { transform: translateY(-5px); }
+        .step-card .step-number {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        .step-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--text-color); }
+        .step-card p { font-size: 1rem; color: var(--text-light-color); }
+        .step-card:nth-child(1) { border-top-color: #ff7f50; }
+        .step-card:nth-child(2) { border-top-color: #48dbfb; }
+        .step-card:nth-child(3) { border-top-color: #1dd1a1; }
+
+        /* --- Tool Area --- */
+        .tool-section {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        .tool-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .tool-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+        }
+        
+        .controls-panel, .preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .control-group legend, .preview-panel h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Form Elements --- */
+        input[type="file"], input[type="number"], select, .app-button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fcfdff;
+            transition: all 0.2s ease;
+        }
+        input[type="file"]::file-selector-button {
+            background-color: var(--secondary-color);
+            color: white; border: none; padding: 8px 12px;
+            border-radius: 6px; cursor: pointer; margin-right: 15px;
+            transition: background-color 0.2s ease;
+        }
+        input[type="file"]::file-selector-button:hover { background-color: var(--secondary-hover-color); }
+
+        .app-button.primary, button.primary {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .app-button.primary:hover, button.primary:hover { background-color: var(--primary-hover-color); }
+        
+        /* --- Shatter (Create) Tool Specifics --- */
+        #shatter_decomposedImagesContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        #shatter_decomposedImagesContainer canvas { max-width: 100%; border-radius: 6px; border: 1px solid var(--border-color); }
+        .transparent-bg { background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e0e0e0 75%), linear-gradient(-45deg, transparent 75%, #e0e0e0 75%); background-size: 16px 16px; background-position: 0 0, 0 8px, 8px -8px, -8px 0px; }
+
+
+        /* --- Blender (Solve) Tool Specifics --- */
+        #blender_layerManager {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 200px;
+            background: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #blender_layerManager p { color: var(--text-light-color); }
+        #blender_previewAreaContainer {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            position: relative;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+        #blender_previewArea { width: 100%; height: 100%; }
+        #blender_previewArea img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: contain; mix-blend-mode: multiply; /* Default to multiply for solving */
+        }
+
+        /* --- Footer --- */
+        .page-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); }
+        .page-footer p { color: var(--text-light-color); }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .tool-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .page-header p.subtitle { font-size: 1.1rem; }
+            .tool-section h2 { font-size: 2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Picgle</h1>
+            <p class="subtitle">Turn your photos into a secret "blind box"! Shatter any image into artistic pieces, share them with friends, and let them solve the puzzle to reveal your hidden picture.</p>
+        </header>
+
+        <section class="how-it-works">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Create Puzzle</h3>
+                <p>Upload any image you want to keep secret. Picgle will shatter it into multiple unique puzzle pieces.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Share Pieces</h3>
+                <p>Download the individual pieces and post them on your social media. Challenge your friends to find them all!</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Solve Together</h3>
+                <p>Your friends collect the pieces, upload them here in the "Solve Puzzle" section, and reveal the secret image!</p>
+            </div>
+        </section>
+
+        <!-- Step 1: Create Puzzle (Shatter Tool) -->
+        <section id="create" class="tool-section">
+            <div style="text-align:center;"><h2>Step 1: Create Your Puzzle</h2></div>
+            <div class="tool-container">
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="shatter_imageLoader">1. Upload Your Secret Image</label>
+                        <input type="file" id="shatter_imageLoader" accept="image/*">
+                    </div>
+                    <div class="control-group">
+                         <label for="shatter_numPieces">2. Number of Puzzle Pieces</label>
+                         <input type="number" id="shatter_numPieces" value="9" min="2" max="100">
+                    </div>
+                     <div class="control-group">
+                        <label>3. Puzzle Style</label>
+                        <select id="shatter_shapeType">
+                            <option value="blocks">Blocks (Recommended)</option>
+                            <option value="voronoi">Voronoi (Artistic)</option>
+                        </select>
+                    </div>
+                    <button id="shatter_decomposeButton" class="primary">Create My Picgle Puzzle!</button>
+                </div>
+                <div class="preview-panel">
+                     <h3>Your Puzzle Pieces (Download them!)</h3>
+                     <div id="shatter_decomposedImagesContainer">
+                        <p style="color: var(--text-light-color); text-align:center;">Your puzzle pieces will appear here after you create them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Solve Puzzle (Blender Tool) -->
+        <section id="solve" class="tool-section">
+            <div style="text-align:center;"><h2>Step 2: Solve a Puzzle</h2></div>
+            <div class="tool-container">
+                 <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="blender_imageUpload">1. Upload Puzzle Pieces</label>
+                        <input type="file" id="blender_imageUpload" multiple accept="image/*" title="Select all the puzzle pieces you've collected">
+                    </div>
+                     <div class="control-group">
+                        <h3>Uploaded Pieces:</h3>
+                        <div id="blender_layerManager">
+                            <p>Upload pieces to see them here.</p>
+                        </div>
+                    </div>
+                    <button id="blender_clearAllBtn" class="app-button">Clear All Pieces</button>
+                </div>
+                <div class="preview-panel">
+                    <h3>Revealed Image</h3>
+                    <div id="blender_previewAreaContainer" class="transparent-bg">
+                        <div id="blender_previewArea"></div>
+                    </div>
+                     <a href="#" id="blender_downloadButton" class="app-button primary" download="revealed-picgle.png" style="text-decoration: none; display:none;">Download Revealed Image</a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-footer">
+            <p>&copy; 2024 Picgle - A new way to play with pictures. Your images are processed in your browser and are never uploaded.</p>
+        </footer>
+    </div>
+
+    <script>
+    // Simplified, combined, and refactored logic for the Picgle workflow.
+    
+    // --- Picgle App Controller ---
+    const PicgleApp = {
+        init() {
+            Creator.init();
+            Solver.init();
+        }
+    };
+
+    // --- Creator Module (formerly Shatter Tool) ---
+    const Creator = {
+        originalImage: null,
+        originalImageData: null,
+        
+        init() {
+            this.imageLoader = document.getElementById('shatter_imageLoader');
+            this.numPiecesInput = document.getElementById('shatter_numPieces');
+            this.shapeTypeSelect = document.getElementById('shatter_shapeType');
+            this.decomposeButton = document.getElementById('shatter_decomposeButton');
+            this.decomposedContainer = document.getElementById('shatter_decomposedImagesContainer');
+
+            this.imageLoader.addEventListener('change', this.handleImageLoad.bind(this));
+            this.decomposeButton.addEventListener('click', this.runDecomposition.bind(this));
+        },
+
+        handleImageLoad(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                this.originalImage = new Image();
+                this.originalImage.onload = () => {
+                    const tempCtx = document.createElement('canvas').getContext('2d');
+                    tempCtx.canvas.width = this.originalImage.width;
+                    tempCtx.canvas.height = this.originalImage.height;
+                    tempCtx.drawImage(this.originalImage, 0, 0);
+                    this.originalImageData = tempCtx.getImageData(0, 0, this.originalImage.width, this.originalImage.height);
+                };
+                this.originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        
+        runDecomposition() {
+            if (!this.originalImage) { alert("Please upload your secret image first!"); return; }
+            
+            const numPieces = parseInt(this.numPiecesInput.value);
+            const shapeType = this.shapeTypeSelect.value;
+            const { width, height } = this.originalImage;
+            
+            this.decomposedContainer.innerHTML = ''; // Clear previous results
+            const canvases = [];
+            for (let i = 0; i < numPieces; i++) {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                // For "blind box", we use a white background so multiply blend mode works perfectly.
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, width, height);
+                canvases.push(canvas);
+            }
+            
+            if (shapeType === 'blocks') {
+                this.decomposeBlocks(canvases, width, height);
+            } else {
+                this.decomposeVoronoi(canvases, width, height);
+            }
+            
+            canvases.forEach((canvas, i) => this.addCanvasToDom(canvas, i));
+        },
+
+        decomposeBlocks(canvases, width, height) {
+            const blockSize = Math.ceil(Math.sqrt((width * height) / (canvases.length * 5))); // Dynamic block size
+            for (let y = 0; y < height; y += blockSize) {
+                for (let x = 0; x < width; x += blockSize) {
+                    const pieceIndex = Math.floor(Math.random() * canvases.length);
+                    const ctx = canvases[pieceIndex].getContext('2d');
+                    const w = Math.min(blockSize, width - x);
+                    const h = Math.min(blockSize, height - y);
+                    ctx.drawImage(this.originalImage, x, y, w, h, x, y, w, h);
+                }
+            }
+        },
+
+        decomposeVoronoi(canvases, width, height) {
+            const numSeeds = canvases.length * 100; // More seeds for detail
+            const seeds = Array.from({ length: numSeeds }, () => ({
+                x: Math.random() * width, y: Math.random() * height,
+                owner: Math.floor(Math.random() * canvases.length)
+            }));
+            
+            const sourceData = this.originalImageData.data;
+            const layerContexts = canvases.map(c => c.getContext('2d'));
+            const layerImageDatas = layerContexts.map(ctx => ctx.getImageData(0,0,width,height));
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    let minDistSq = Infinity, closestSeedOwner = 0;
+                    seeds.forEach(seed => {
+                        const distSq = (seed.x - x)**2 + (seed.y - y)**2;
+                        if (distSq < minDistSq) { minDistSq = distSq; closestSeedOwner = seed.owner; }
+                    });
+                    
+                    const pixelIndex = (y * width + x) * 4;
+                    const targetData = layerImageDatas[closestSeedOwner].data;
+                    targetData[pixelIndex] = sourceData[pixelIndex];
+                    targetData[pixelIndex+1] = sourceData[pixelIndex+1];
+                    targetData[pixelIndex+2] = sourceData[pixelIndex+2];
+                    targetData[pixelIndex+3] = sourceData[pixelIndex+3];
+                }
+            }
+            layerContexts.forEach((ctx, i) => ctx.putImageData(layerImageDatas[i], 0, 0));
+        },
+
+        addCanvasToDom(canvas, index) {
+            const container = document.createElement('div');
+            container.style.textAlign = 'center';
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `picgle_piece_${index + 1}_of_${canvas.length}.png`;
+            link.appendChild(canvas);
+            
+            const button = document.createElement('button');
+            button.textContent = `Download Piece ${index + 1}`;
+            button.className = 'app-button';
+            button.style.width = '100%';
+            button.style.marginTop = '5px';
+            button.onclick = () => link.click();
+
+            container.appendChild(link);
+            container.appendChild(button);
+            this.decomposedContainer.appendChild(container);
+        }
+    };
+
+    // --- Solver Module (formerly Blender Tool) ---
+    const Solver = {
+        imageLayers: [],
+        
+        init() {
+            this.imageUpload = document.getElementById('blender_imageUpload');
+            this.previewArea = document.getElementById('blender_previewArea');
+            this.layerManager = document.getElementById('blender_layerManager');
+            this.clearAllBtn = document.getElementById('blender_clearAllBtn');
+            this.downloadButton = document.getElementById('blender_downloadButton');
+
+            this.imageUpload.addEventListener('change', this.handleImageUpload.bind(this));
+            this.clearAllBtn.addEventListener('click', this.clearAll.bind(this));
+        },
+
+        async handleImageUpload(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+            this.imageUpload.value = ''; // Reset for re-uploading
+            
+            for (const file of files) {
+                if (file.type.startsWith('image/')) {
+                    const src = await this.readFileAsDataURL(file);
+                    this.imageLayers.push({ src, name: file.name });
+                }
+            }
+            this.render();
+        },
+
+        render() {
+            this.previewArea.innerHTML = '';
+            this.layerManager.innerHTML = '';
+
+            if(!this.imageLayers.length) {
+                 this.layerManager.innerHTML = '<p>Upload pieces to see them here.</p>';
+                 this.downloadButton.style.display = 'none';
+                 return;
+            }
+
+            this.imageLayers.forEach(layer => {
+                const img = document.createElement('img');
+                img.src = layer.src;
+                this.previewArea.appendChild(img);
+
+                const layerChip = document.createElement('span');
+                layerChip.textContent = layer.name;
+                layerChip.style.cssText = 'background:#eee; padding: 5px 10px; border-radius:15px; font-size:0.9em;';
+                this.layerManager.appendChild(layerChip);
+            });
+            this.downloadButton.style.display = 'block';
+            this.downloadButton.onclick = (e) => this.downloadImage(e);
+        },
+
+        downloadImage(e) {
+            e.preventDefault();
+            const canvas = document.createElement('canvas');
+            const firstImg = this.previewArea.querySelector('img');
+            if(!firstImg) return;
+            
+            const tempImage = new Image();
+            tempImage.onload = () => {
+                canvas.width = tempImage.width;
+                canvas.height = tempImage.height;
+                const ctx = canvas.getContext('2d');
+                
+                Array.from(this.previewArea.querySelectorAll('img')).forEach(imgNode => {
+                     ctx.globalCompositeOperation = 'multiply';
+                     ctx.drawImage(imgNode, 0, 0, canvas.width, canvas.height);
+                });
+
+                e.target.href = canvas.toDataURL('image/png');
+                e.target.click();
+            };
+            tempImage.src = firstImg.src;
+        },
+
+        clearAll() {
+            this.imageLayers = [];
+            this.render();
+        },
+
+        readFileAsDataURL(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.readAsDataURL(file);
+            });
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => PicgleApp.init());
+
+    </script>
+</body>
+</html>
