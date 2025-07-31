@@ -1,557 +1,1449 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <!-- Primary Meta Tags -->
-    <title>Picgle: Create & Share Secret Image Puzzles</title>
-    <meta name="title" content="Picgle: Create & Share Secret Image Puzzles">
-    <meta name="description" content="Turn any photo into a secret puzzle! Shatter your image into artistic fragments, share them on social media, and let your friends collect the pieces to reveal the hidden picture. The ultimate 'image blind box' experience.">
-    <meta name="keywords" content="image puzzle, photo puzzle, secret image, social media game, picture blind box, photo fragments, interactive post, online puzzle maker, 图片盲盒, 图片解谜, 社交游戏">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetPicgle - Advanced Image Decomposition & Blending Tool | Free Online Image Editor</title>
+    <meta name="description" content="GetPicgle is a powerful online image processing tool for decomposing, blending, and editing images. Features include Voronoi decomposition, layer blending, color inversion, and more.">
+    <meta name="keywords" content="image processing, image decomposition, image blending, Voronoi, online image editor, photo editor, image layers">
+    <meta name="author" content="GetPicgle">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-domain.com/">
-    <meta property="og:title" content="Picgle: Create & Share Secret Image Puzzles">
-    <meta property="og:description" content="Turn any photo into a secret 'blind box'! Shatter your image, share the pieces, and let your friends solve the puzzle.">
-    <meta property="og:image" content="https://your-domain.com/social-preview.png"> <!-- 建议你创建一个1200x630的预览图 -->
+    <meta property="og:url" content="https://getpicgle.com">
+    <meta property="og:title" content="GetPicgle - Advanced Image Processing Tool">
+    <meta property="og:description" content="Free online image decomposition and blending tool with advanced features">
+    <meta property="og:image" content="https://getpicgle.com/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://your-domain.com/">
-    <meta property="twitter:title" content="Picgle: Create & Share Secret Image Puzzles">
-    <meta property="twitter:description" content="Turn any photo into a secret 'blind box'! Shatter your image, share the pieces, and let your friends solve the puzzle.">
-    <meta property="twitter:image" content="https://your-domain.com/social-preview.png"> <!-- 同上 -->
+    <meta property="twitter:url" content="https://getpicgle.com">
+    <meta property="twitter:title" content="GetPicgle - Advanced Image Processing Tool">
+    <meta property="twitter:description" content="Free online image decomposition and blending tool with advanced features">
+    <meta property="twitter:image" content="https://getpicgle.com/og-image.jpg">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://getpicgle.com">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#3b82f6',
+                        'primary-dark': '#2563eb',
+                        'success': '#10b981',
+                        'success-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary-color: #ff4757; /* A more playful, vibrant color */
-            --primary-hover-color: #e04050;
-            --secondary-color: #3498db;
-            --secondary-hover-color: #2980b9;
-            --light-bg: #fdfcff;
-            --card-bg: #ffffff;
-            --text-color: #2c3a47;
-            --text-light-color: #576574;
-            --border-color: #dfe4ea;
-            --shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
-            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        .transparent-bg {
+            background-image:
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
         }
-
-        /* --- Base & Layout --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--font-main);
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.7;
-            padding: 20px;
-        }
-        .hidden { display: none !important; }
-
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        /* --- Header --- */
-        .page-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .page-header h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-        }
-        .page-header p.subtitle {
-            font-size: 1.25rem;
-            color: var(--text-light-color);
-            max-width: 750px;
-            margin: 0 auto;
-        }
+        .layer-item.dragging { opacity: 0.6; }
+        .drop-indicator { height: 3px; background-color: #3b82f6; margin: 4px 0; border-radius: 2px; }
         
-        /* --- How It Works Section --- */
-        .how-it-works {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
-        }
-        .step-card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border-top: 4px solid var(--border-color);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-        .step-card:hover { transform: translateY(-5px); }
-        .step-card .step-number {
+        /* Custom file input styles for mobile */
+        .custom-file-input {
+            position: relative;
             display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            border-radius: 50%;
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-        .step-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--text-color); }
-        .step-card p { font-size: 1rem; color: var(--text-light-color); }
-        .step-card:nth-child(1) { border-top-color: #ff7f50; }
-        .step-card:nth-child(2) { border-top-color: #48dbfb; }
-        .step-card:nth-child(3) { border-top-color: #1dd1a1; }
-
-        /* --- Tool Area --- */
-        .tool-section {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            margin-bottom: 40px;
-        }
-        .tool-section h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-color);
-            border-bottom: 2px solid var(--primary-color);
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-        
-        .tool-container {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 30px;
-        }
-        
-        .controls-panel, .preview-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .control-group legend, .preview-panel h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-color);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        /* --- Form Elements --- */
-        input[type="file"], input[type="number"], select, .app-button {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: #fcfdff;
-            transition: all 0.2s ease;
         }
-        input[type="file"]::file-selector-button {
-            background-color: var(--secondary-color);
-            color: white; border: none; padding: 8px 12px;
-            border-radius: 6px; cursor: pointer; margin-right: 15px;
-            transition: background-color 0.2s ease;
-        }
-        input[type="file"]::file-selector-button:hover { background-color: var(--secondary-hover-color); }
-
-        .app-button.primary, button.primary {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-            font-size: 1.2rem;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-        }
-        .app-button.primary:hover, button.primary:hover { background-color: var(--primary-hover-color); }
         
-        /* --- Shatter (Create) Tool Specifics --- */
-        #shatter_decomposedImagesContainer {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            background: var(--light-bg);
-            padding: 15px;
-            border-radius: 8px;
-            max-height: 500px;
-            overflow-y: auto;
+        .custom-file-input input[type="file"] {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
         }
-        #shatter_decomposedImagesContainer canvas { max-width: 100%; border-radius: 6px; border: 1px solid var(--border-color); }
-        .transparent-bg { background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e0e0e0 75%), linear-gradient(-45deg, transparent 75%, #e0e0e0 75%); background-size: 16px 16px; background-position: 0 0, 0 8px, 8px -8px, -8px 0px; }
-
-
-        /* --- Blender (Solve) Tool Specifics --- */
-        #blender_layerManager {
-            border: 2px dashed var(--border-color);
+        
+        .custom-file-label {
+            display: block;
+            padding: 12px 16px;
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
             border-radius: 8px;
-            padding: 10px;
-            min-height: 200px;
-            background: var(--light-bg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #6b7280;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }
-        #blender_layerManager p { color: var(--text-light-color); }
-        #blender_previewAreaContainer {
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            position: relative;
-            background-color: #e9ecef;
-            overflow: hidden;
+        
+        .custom-file-label:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #3b82f6;
         }
-        #blender_previewArea { width: 100%; height: 100%; }
-        #blender_previewArea img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; mix-blend-mode: multiply; /* Default to multiply for solving */
+        
+        .custom-file-label.has-file {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46;
         }
-
-        /* --- Footer --- */
-        .page-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--border-color); }
-        .page-footer p { color: var(--text-light-color); }
-
-        /* --- Responsive --- */
-        @media (max-width: 992px) {
-            .tool-container { grid-template-columns: 1fr; }
+        
+        .file-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            opacity: 0.7;
         }
+        
+        /* Mobile optimizations */
         @media (max-width: 768px) {
-            .page-header h1 { font-size: 2.5rem; }
-            .page-header p.subtitle { font-size: 1.1rem; }
-            .tool-section h2 { font-size: 2rem; }
+            .mobile-stack {
+                display: block;
+            }
+            
+            .mobile-full-width {
+                width: 100%;
+            }
+            
+            .mobile-sticky-controls {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: white;
+                border-bottom: 1px solid #e5e7eb;
+                margin: -1.5rem -1rem 1.5rem -1rem;
+                padding: 1rem;
+            }
+            
+            .mobile-preview-container {
+                min-height: 250px;
+                max-height: 300px;
+            }
+            
+            .mobile-canvas {
+                max-width: 100%;
+                max-height: 200px;
+            }
+            
+            .mobile-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .mobile-layer-item {
+                padding: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .mobile-layer-thumb {
+                width: 32px;
+                height: 24px;
+            }
+            
+            .mobile-button-stack {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .mobile-text-sm {
+                font-size: 0.875rem;
+            }
+            
+            .mobile-compact-header {
+                padding: 0.75rem 0;
+            }
         }
-
+        
+        @media (max-width: 480px) {
+            .mobile-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            
+            .mobile-extra-compact {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
-<body>
-
-    <div class="container">
-        <header class="page-header">
-            <h1>Picgle</h1>
-            <p class="subtitle">Turn your photos into a secret "blind box"! Shatter any image into artistic pieces, share them with friends, and let them solve the puzzle to reveal your hidden picture.</p>
-        </header>
-
-        <section class="how-it-works">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Create Puzzle</h3>
-                <p>Upload any image you want to keep secret. Picgle will shatter it into multiple unique puzzle pieces.</p>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 mobile-compact-header">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl sm:text-3xl font-bold text-primary">GetPicgle</h1>
+                <nav class="hidden md:flex space-x-6">
+                    <button onclick="showTab('decompose')" id="decomposeTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200 border-b-2 border-primary">
+                        Decompose
+                    </button>
+                    <button onclick="showTab('blend')" id="blendTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200">
+                        Blend
+                    </button>
+                </nav>
             </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>Share Pieces</h3>
-                <p>Download the individual pieces and post them on your social media. Challenge your friends to find them all!</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>Solve Together</h3>
-                <p>Your friends collect the pieces, upload them here in the "Solve Puzzle" section, and reveal the secret image!</p>
-            </div>
-        </section>
+        </div>
+    </header>
 
-        <!-- Step 1: Create Puzzle (Shatter Tool) -->
-        <section id="create" class="tool-section">
-            <div style="text-align:center;"><h2>Step 1: Create Your Puzzle</h2></div>
-            <div class="tool-container">
-                <div class="controls-panel">
-                    <div class="control-group">
-                        <label for="shatter_imageLoader">1. Upload Your Secret Image</label>
-                        <input type="file" id="shatter_imageLoader" accept="image/*">
-                    </div>
-                    <div class="control-group">
-                         <label for="shatter_numPieces">2. Number of Puzzle Pieces</label>
-                         <input type="number" id="shatter_numPieces" value="9" min="2" max="100">
-                    </div>
-                     <div class="control-group">
-                        <label>3. Puzzle Style</label>
-                        <select id="shatter_shapeType">
-                            <option value="blocks">Blocks (Recommended)</option>
-                            <option value="voronoi">Voronoi (Artistic)</option>
-                        </select>
-                    </div>
-                    <button id="shatter_decomposeButton" class="primary">Create My Picgle Puzzle!</button>
-                </div>
-                <div class="preview-panel">
-                     <h3>Your Puzzle Pieces (Download them!)</h3>
-                     <div id="shatter_decomposedImagesContainer">
-                        <p style="color: var(--text-light-color); text-align:center;">Your puzzle pieces will appear here after you create them.</p>
-                    </div>
-                </div>
+    <!-- Mobile Navigation -->
+    <div class="md:hidden bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex space-x-4 py-2">
+                <button onclick="showTab('decompose')" id="decomposeTabMobile" class="flex-1 py-2 text-center text-sm font-medium text-primary border-b-2 border-primary">
+                    Decompose
+                </button>
+                <button onclick="showTab('blend')" id="blendTabMobile" class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                    Blend
+                </button>
             </div>
-        </section>
-
-        <!-- Step 2: Solve Puzzle (Blender Tool) -->
-        <section id="solve" class="tool-section">
-            <div style="text-align:center;"><h2>Step 2: Solve a Puzzle</h2></div>
-            <div class="tool-container">
-                 <div class="controls-panel">
-                    <div class="control-group">
-                        <label for="blender_imageUpload">1. Upload Puzzle Pieces</label>
-                        <input type="file" id="blender_imageUpload" multiple accept="image/*" title="Select all the puzzle pieces you've collected">
-                    </div>
-                     <div class="control-group">
-                        <h3>Uploaded Pieces:</h3>
-                        <div id="blender_layerManager">
-                            <p>Upload pieces to see them here.</p>
-                        </div>
-                    </div>
-                    <button id="blender_clearAllBtn" class="app-button">Clear All Pieces</button>
-                </div>
-                <div class="preview-panel">
-                    <h3>Revealed Image</h3>
-                    <div id="blender_previewAreaContainer" class="transparent-bg">
-                        <div id="blender_previewArea"></div>
-                    </div>
-                     <a href="#" id="blender_downloadButton" class="app-button primary" download="revealed-picgle.png" style="text-decoration: none; display:none;">Download Revealed Image</a>
-                </div>
-            </div>
-        </section>
-
-        <footer class="page-footer">
-            <p>&copy; 2024 Picgle - A new way to play with pictures. Your images are processed in your browser and are never uploaded.</p>
-        </footer>
+        </div>
     </div>
 
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <!-- Decompose Tab -->
+        <div id="decomposeContent" class="tab-content">
+            <div class="mb-6 sm:mb-8 text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4">Image Decomposition Tool</h2>
+                <p class="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">Break down your images into multiple layers using blocks or Voronoi patterns. Perfect for creating artistic effects and unique compositions.</p>
+            </div>
+
+            <div class="mobile-stack lg:grid lg:grid-cols-4 gap-8">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-1 mb-6 lg:mb-0">
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mobile-sticky-controls lg:sticky lg:top-8">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Settings</h3>
+                        
+                        <!-- Upload -->
+                        <div class="mb-4 sm:mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Image</label>
+                            <div class="custom-file-input">
+                                <input type="file" id="decomposeImageLoader" accept="image/*">
+                                <label for="decomposeImageLoader" class="custom-file-label" id="decomposeFileLabel">
+                                    <svg class="file-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <span class="file-text">Choose File</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Number of Pieces -->
+                        <div class="mb-4 sm:mb-6">
+                            <label for="numPieces" id="numPiecesLabel" class="block text-sm font-medium text-gray-700 mb-2">Number of Pieces (5-15)</label>
+                            <input type="number" id="numPieces" value="10" min="5" max="15" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <!-- Unlock Advanced -->
+                        <div class="mb-4 sm:mb-6" id="advancedUnlockGroup">
+                            <button id="unlockAdvancedDecomposeButton" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 text-sm mobile-text-sm">
+                                Want more pieces? (Unlock 5-100)
+                            </button>
+                        </div>
+
+                        <!-- Shape Type -->
+                        <div class="mb-4 sm:mb-6">
+                            <fieldset class="border border-gray-300 rounded-md p-3 sm:p-4">
+                                <legend class="text-sm font-medium text-gray-700 px-2">Decomposition Shape</legend>
+                                <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="shapeType" value="blocks" checked class="mr-2 text-primary focus:ring-primary">
+                                        <span class="text-sm">Blocks</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="shapeType" value="voronoi" class="mr-2 text-primary focus:ring-primary">
+                                        <span class="text-sm">Voronoi</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <!-- Block Size -->
+                        <div class="mb-4 sm:mb-6" id="blockSizeGroup">
+                            <label for="blockSize" class="block text-sm font-medium text-gray-700 mb-2">Block Size (pixels, 1 = smallest)</label>
+                            <input type="number" id="blockSize" value="10" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <!-- Voronoi Seeds -->
+                        <div class="mb-4 sm:mb-6 hidden" id="voronoiSeedsGroup">
+                            <label for="voronoiSeeds" class="block text-sm font-medium text-gray-700 mb-2">Voronoi Seed Points (500-10000)</label>
+                            <input type="number" id="voronoiSeeds" value="1000" min="500" max="10000" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <!-- Background -->
+                        <div class="mb-4 sm:mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Background</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mobile-button-stack">
+                                <button class="bg-btn flex-1 px-3 py-2 text-sm bg-primary text-white rounded-md" data-bg="transparent">Transparent</button>
+                                <button class="bg-btn flex-1 px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200" data-bg="white">White</button>
+                                <button class="bg-btn flex-1 px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200" data-bg="black">Black</button>
+                            </div>
+                        </div>
+
+                        <!-- Color Processing -->
+                        <div class="mb-4 sm:mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Color Processing</label>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mobile-button-stack">
+                                <button id="colorNormalButton" class="toggle-btn flex-1 px-3 py-2 text-sm bg-primary text-white rounded-md" data-invert="false">Normal</button>
+                                <button id="colorInvertButton" class="toggle-btn flex-1 px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200" data-invert="true">Inverted</button>
+                            </div>
+                        </div>
+
+                        <!-- Decompose Button -->
+                        <button id="decomposeButton" class="w-full px-4 py-3 bg-success text-white rounded-md font-medium hover:bg-success-dark transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>Start Decomposition</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="lg:col-span-3 space-y-6 sm:space-y-8">
+                    <!-- Original Image -->
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Original Image</h3>
+                        <div class="flex justify-center items-center bg-gray-100 rounded-lg min-h-[150px] sm:min-h-[200px] mobile-preview-container p-4">
+                            <canvas id="originalImageCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Decomposed Layers -->
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Decomposed Layers</h3>
+                        <div id="decomposedImagesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mobile-grid gap-3 sm:gap-4">
+                            <!-- Decomposed images will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Merged Preview -->
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Merged Preview <span id="blendModeInfo" class="text-sm text-gray-500 font-normal"></span></h3>
+                        <div class="flex justify-center items-center bg-gray-100 rounded-lg min-h-[150px] sm:min-h-[200px] mobile-preview-container p-4">
+                            <canvas id="recombinedCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blend Tab -->
+        <div id="blendContent" class="tab-content hidden">
+            <div class="mb-6 sm:mb-8 text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-4">Image Blending & Layer Editor</h2>
+                <p class="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">Upload multiple images and blend them together using various blend modes. Create stunning compositions with layer management and color effects.</p>
+            </div>
+
+            <div class="mobile-stack lg:grid lg:grid-cols-3 gap-8">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-1 mb-6 lg:mb-0">
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mobile-sticky-controls lg:sticky lg:top-8">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Blend Settings</h3>
+                        
+                        <!-- Upload Multiple -->
+                        <div class="mb-4 sm:mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Images (Multiple)</label>
+                            <div class="custom-file-input">
+                                <input type="file" id="blendImageUpload" multiple accept="image/*">
+                                <label for="blendImageUpload" class="custom-file-label" id="blendFileLabel">
+                                    <svg class="file-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <span class="file-text">Choose Files</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Clear All -->
+                        <div class="mb-4 sm:mb-6">
+                            <button id="clearAllBtn" class="w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors duration-200">
+                                Clear All Images
+                            </button>
+                        </div>
+
+                        <!-- Blend Modes -->
+                        <div class="mb-4 sm:mb-6">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">Blend Modes</h4>
+                            <div class="space-y-2 mb-4">
+                                <button id="whiteBgMultiplyBtn" class="toggle-button w-full px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                                    White Background (Multiply)
+                                </button>
+                                <button id="blackBgScreenBtn" class="toggle-button w-full px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                                    Black Background (Screen)
+                                </button>
+                            </div>
+                            <button id="advancedBlendToggle" class="toggle-button w-full px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 mb-3">
+                                Advanced Blend Modes
+                            </button>
+                            <div class="hidden" id="advancedBlendOptions">
+                                <select id="blendModeSelect" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option value="normal">Normal</option>
+                                    <option value="multiply">Multiply</option>
+                                    <option value="screen">Screen</option>
+                                    <option value="overlay">Overlay</option>
+                                    <option value="darken">Darken</option>
+                                    <option value="lighten">Lighten</option>
+                                    <option value="color-dodge">Color Dodge</option>
+                                    <option value="color-burn">Color Burn</option>
+                                    <option value="hard-light">Hard Light</option>
+                                    <option value="soft-light">Soft Light</option>
+                                    <option value="difference">Difference</option>
+                                    <option value="exclusion">Exclusion</option>
+                                    <option value="hue">Hue</option>
+                                    <option value="saturation">Saturation</option>
+                                    <option value="color">Color</option>
+                                    <option value="luminosity">Luminosity</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Global Effects -->
+                        <div class="mb-4 sm:mb-6">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">Global Effects</h4>
+                            <button id="globalInvertToggleBtn" class="toggle-button w-full px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                                Invert Final Colors (Global)
+                            </button>
+                        </div>
+
+                        <!-- Layer Manager -->
+                        <div class="mb-4 sm:mb-6">
+                            <h4 class="text-sm font-medium text-gray-700 mb-3">Layer Management (Drag to Reorder)</h4>
+                            <div id="layerManager" class="border border-gray-300 rounded-md p-3 min-h-[120px] sm:min-h-[150px] max-h-[250px] sm:max-h-[300px] overflow-y-auto bg-gray-50">
+                                <p class="text-center text-gray-500 text-sm">Please upload images first.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Preview</h3>
+                        <div id="previewAreaContainer" class="w-full aspect-[4/3] max-h-[400px] sm:max-h-[600px] border-2 border-dashed border-gray-300 rounded-lg mb-6 bg-gray-100 overflow-hidden flex items-center justify-center relative">
+                            <div id="previewArea" class="w-full h-full relative">
+                                <!-- Images will be dynamically added here -->
+                            </div>
+                        </div>
+                        <button id="downloadButton" class="w-full px-4 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary-dark transition-colors duration-200 flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Download Blended Image</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-8 sm:mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">GetPicgle</h2>
+                <p class="text-gray-600 mb-4">Advanced image processing made simple</p>
+                <div class="flex justify-center space-x-6 text-sm text-gray-500">
+                    <span>&copy; 2024 GetPicgle. All rights reserved.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
-    // Simplified, combined, and refactored logic for the Picgle workflow.
-    
-    // --- Picgle App Controller ---
-    const PicgleApp = {
-        init() {
-            Creator.init();
-            Solver.init();
+        // Tab Management
+        function showTab(tabName) {
+            const tabs = ['decompose', 'blend'];
+            tabs.forEach(tab => {
+                const content = document.getElementById(tab + 'Content');
+                const tabButton = document.getElementById(tab + 'Tab');
+                const tabButtonMobile = document.getElementById(tab + 'TabMobile');
+                
+                if (tab === tabName) {
+                    content.classList.remove('hidden');
+                    tabButton?.classList.add('border-b-2', 'border-primary', 'text-primary');
+                    tabButton?.classList.remove('text-gray-700');
+                    tabButtonMobile?.classList.add('border-b-2', 'border-primary', 'text-primary');
+                    tabButtonMobile?.classList.remove('text-gray-500');
+                } else {
+                    content.classList.add('hidden');
+                    tabButton?.classList.remove('border-b-2', 'border-primary', 'text-primary');
+                    tabButton?.classList.add('text-gray-700');
+                    tabButtonMobile?.classList.remove('border-b-2', 'border-primary', 'text-primary');
+                    tabButtonMobile?.classList.add('text-gray-500');
+                }
+            });
         }
-    };
 
-    // --- Creator Module (formerly Shatter Tool) ---
-    const Creator = {
-        originalImage: null,
-        originalImageData: null,
-        
-        init() {
-            this.imageLoader = document.getElementById('shatter_imageLoader');
-            this.numPiecesInput = document.getElementById('shatter_numPieces');
-            this.shapeTypeSelect = document.getElementById('shatter_shapeType');
-            this.decomposeButton = document.getElementById('shatter_decomposeButton');
-            this.decomposedContainer = document.getElementById('shatter_decomposedImagesContainer');
+        // Custom File Input Handling
+        function updateFileLabel(input, labelId, multiple = false) {
+            const label = document.getElementById(labelId);
+            const fileText = label.querySelector('.file-text');
+            
+            if (input.files && input.files.length > 0) {
+                label.classList.add('has-file');
+                if (multiple && input.files.length > 1) {
+                    fileText.textContent = `${input.files.length} files selected`;
+                } else {
+                    const fileName = input.files[0].name;
+                    if (fileName.length > 20) {
+                        fileText.textContent = fileName.substring(0, 17) + '...';
+                    } else {
+                        fileText.textContent = fileName;
+                    }
+                }
+            } else {
+                label.classList.remove('has-file');
+                fileText.textContent = multiple ? 'Choose Files' : 'Choose File';
+            }
+        }
 
-            this.imageLoader.addEventListener('change', this.handleImageLoad.bind(this));
-            this.decomposeButton.addEventListener('click', this.runDecomposition.bind(this));
-        },
+        // === DECOMPOSE FUNCTIONALITY ===
+        const decomposeImageLoader = document.getElementById('decomposeImageLoader');
+        const numPiecesInput = document.getElementById('numPieces');
+        const numPiecesLabel = document.getElementById('numPiecesLabel');
+        const unlockAdvancedDecomposeButton = document.getElementById('unlockAdvancedDecomposeButton');
+        const shapeTypeRadios = document.querySelectorAll('input[name="shapeType"]');
+        const blockSizeGroup = document.getElementById('blockSizeGroup');
+        const blockSizeInput = document.getElementById('blockSize');
+        const voronoiSeedsGroup = document.getElementById('voronoiSeedsGroup');
+        const voronoiSeedsInput = document.getElementById('voronoiSeeds');
+        const decomposeButton = document.getElementById('decomposeButton');
+        const originalImageCanvas = document.getElementById('originalImageCanvas');
+        const originalCtx = originalImageCanvas.getContext('2d');
+        const decomposedContainer = document.getElementById('decomposedImagesContainer');
+        const recombinedCanvas = document.getElementById('recombinedCanvas');
+        const recombinedCtx = recombinedCanvas.getContext('2d', { willReadFrequently: true });
+        const bgButtons = document.querySelectorAll('.bg-btn');
+        const colorNormalButton = document.getElementById('colorNormalButton');
+        const colorInvertButton = document.getElementById('colorInvertButton');
+        const blendModeInfoSpan = document.getElementById('blendModeInfo');
 
-        handleImageLoad(event) {
+        let originalImage = null;
+        let originalImageData = null;
+        let originalFileName = 'image';
+        let currentDecomposedCanvasesData = [];
+        let selectedDecomposedBgType = 'transparent';
+        let currentBlendMode = 'multiply';
+        let currentShapeType = 'blocks';
+        let colorInversionActive = false;
+        let advancedDecomposeUnlocked = false;
+        let unlockPromptShown = false;
+
+        // File input event listeners
+        decomposeImageLoader.addEventListener('change', (event) => {
+            updateFileLabel(event.target, 'decomposeFileLabel', false);
             const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                this.originalImage = new Image();
-                this.originalImage.onload = () => {
-                    const tempCtx = document.createElement('canvas').getContext('2d');
-                    tempCtx.canvas.width = this.originalImage.width;
-                    tempCtx.canvas.height = this.originalImage.height;
-                    tempCtx.drawImage(this.originalImage, 0, 0);
-                    this.originalImageData = tempCtx.getImageData(0, 0, this.originalImage.width, this.originalImage.height);
+            if (file) {
+                originalFileName = file.name.split('.').slice(0, -1).join('.') || 'image';
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    originalImage = new Image();
+                    originalImage.onload = () => {
+                        originalImageCanvas.width = originalImage.width;
+                        originalImageCanvas.height = originalImage.height;
+                        originalCtx.drawImage(originalImage, 0, 0);
+                        originalImageData = originalCtx.getImageData(0, 0, originalImage.width, originalImage.height);
+                        updateCanvasBackgroundStyle(recombinedCanvas, true);
+                        currentDecomposedCanvasesData = [];
+                        decomposedContainer.innerHTML = '';
+                        if (recombinedCanvas.width > 0 && recombinedCanvas.height > 0) {
+                            recombinedCtx.clearRect(0, 0, recombinedCanvas.width, recombinedCanvas.height);
+                        }
+                    };
+                    originalImage.onerror = () => {
+                        alert("Cannot load image.");
+                        originalImage = null;
+                        originalImageData = null;
+                    };
+                    originalImage.src = e.target.result;
                 };
-                this.originalImage.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-        
-        runDecomposition() {
-            if (!this.originalImage) { alert("Please upload your secret image first!"); return; }
-            
-            const numPieces = parseInt(this.numPiecesInput.value);
-            const shapeType = this.shapeTypeSelect.value;
-            const { width, height } = this.originalImage;
-            
-            this.decomposedContainer.innerHTML = ''; // Clear previous results
-            const canvases = [];
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Decompose Event Listeners
+        unlockAdvancedDecomposeButton.addEventListener('click', () => {
+            if (!unlockPromptShown) {
+                alert("Demo: Please screenshot this page and share it with friends, then click this button again to unlock.");
+                unlockAdvancedDecomposeButton.textContent = "I've shared, unlock limits";
+                unlockPromptShown = true;
+            } else {
+                advancedDecomposeUnlocked = true;
+                numPiecesInput.max = 100;
+                numPiecesLabel.textContent = "Number of Pieces (5-100, unlocked)";
+                unlockAdvancedDecomposeButton.textContent = "Advanced quantity unlocked";
+                unlockAdvancedDecomposeButton.disabled = true;
+                unlockAdvancedDecomposeButton.classList.add('opacity-50', 'cursor-not-allowed');
+                unlockPromptShown = false;
+            }
+        });
+
+        shapeTypeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                currentShapeType = e.target.value;
+                if (currentShapeType === 'blocks') {
+                    blockSizeGroup.classList.remove('hidden');
+                    voronoiSeedsGroup.classList.add('hidden');
+                } else {
+                    blockSizeGroup.classList.add('hidden');
+                    voronoiSeedsGroup.classList.remove('hidden');
+                }
+            });
+        });
+
+        bgButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                bgButtons.forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                });
+                e.target.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                e.target.classList.add('bg-primary', 'text-white');
+                selectedDecomposedBgType = e.target.dataset.bg;
+                updateBlendModeAndInfo();
+                triggerRecombinePreview();
+            });
+        });
+
+        function setColorInversionVisualState(invert) {
+            colorInversionActive = invert;
+            if (invert) {
+                colorNormalButton.classList.remove('bg-primary', 'text-white');
+                colorNormalButton.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                colorInvertButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                colorInvertButton.classList.add('bg-primary', 'text-white');
+            } else {
+                colorNormalButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                colorNormalButton.classList.add('bg-primary', 'text-white');
+                colorInvertButton.classList.remove('bg-primary', 'text-white');
+                colorInvertButton.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            }
+        }
+
+        colorNormalButton.addEventListener('click', () => setColorInversionVisualState(false));
+        colorInvertButton.addEventListener('click', () => setColorInversionVisualState(true));
+        setColorInversionVisualState(false);
+        updateBlendModeAndInfo();
+
+        decomposeButton.addEventListener('click', () => {
+            if (!originalImage || !originalImageData) {
+                alert("Please upload an image first!");
+                return;
+            }
+
+            const numPieces = parseInt(numPiecesInput.value);
+            const invert = colorInversionActive;
+            let actualBgColor;
+            if (selectedDecomposedBgType === 'transparent') actualBgColor = 'transparent';
+            else if (selectedDecomposedBgType === 'white') actualBgColor = '#FFFFFF';
+            else actualBgColor = '#000000';
+
+            const minPieces = 5;
+            const maxPieces = advancedDecomposeUnlocked ? 100 : 15;
+
+            if (isNaN(numPieces) || numPieces < minPieces || numPieces > maxPieces) {
+                alert(`Number of pieces must be between ${minPieces} and ${maxPieces}.`);
+                return;
+            }
+
+            if (currentShapeType === 'blocks') {
+                const blockSize = parseInt(blockSizeInput.value);
+                if (isNaN(blockSize) || blockSize < 1) {
+                    alert("Block size must be at least 1.");
+                    return;
+                }
+                console.log(`Starting block decomposition: ${numPieces} pieces, block size ${blockSize}px, background: ${actualBgColor}, invert: ${invert}`);
+                decomposeImageBlocks(originalImage, numPieces, blockSize, actualBgColor, invert);
+            } else {
+                const numVoronoiSeeds = parseInt(voronoiSeedsInput.value);
+                if (isNaN(numVoronoiSeeds) || numVoronoiSeeds < 500 || numVoronoiSeeds > 10000) {
+                    alert("Voronoi seed points must be between 500 and 10000.");
+                    return;
+                }
+                console.log(`Starting Voronoi decomposition: ${numPieces} pieces, ${numVoronoiSeeds} seeds, background: ${actualBgColor}, invert: ${invert}`);
+                decomposeImageVoronoi(originalImage, numPieces, numVoronoiSeeds, actualBgColor, invert);
+            }
+        });
+
+        // Decompose Helper Functions
+        function updateBlendModeAndInfo() {
+            if (selectedDecomposedBgType === 'transparent' || selectedDecomposedBgType === 'white') {
+                currentBlendMode = 'multiply';
+                blendModeInfoSpan.textContent = '(Multiply blend)';
+            } else if (selectedDecomposedBgType === 'black') {
+                currentBlendMode = 'screen';
+                blendModeInfoSpan.textContent = '(Screen blend)';
+            }
+        }
+
+        function updateCanvasBackgroundStyle(canvas, isTransparent) {
+            if (isTransparent) canvas.classList.add('transparent-bg');
+            else canvas.classList.remove('transparent-bg');
+        }
+
+        function downloadCanvasAsImage(canvas, pieceIndex) {
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = `${originalFileName}_${currentShapeType}_piece_${pieceIndex + 1}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function triggerRecombinePreview() {
+            if (currentDecomposedCanvasesData.length > 0 && originalImage) {
+                let actualBgColorForRecombine;
+                if (selectedDecomposedBgType === 'transparent') actualBgColorForRecombine = 'transparent';
+                else if (selectedDecomposedBgType === 'white') actualBgColorForRecombine = '#FFFFFF';
+                else actualBgColorForRecombine = '#000000';
+                recombineForPreview(currentDecomposedCanvasesData, originalImage.width, originalImage.height, actualBgColorForRecombine);
+            }
+        }
+
+        function createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp) {
+            currentDecomposedCanvasesData = [];
+            decomposedContainer.innerHTML = '';
+
             for (let i = 0; i < numPieces; i++) {
                 const canvas = document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                // For "blind box", we use a white background so multiply blend mode works perfectly.
-                ctx.fillStyle = '#FFFFFF';
-                ctx.fillRect(0, 0, width, height);
-                canvases.push(canvas);
-            }
-            
-            if (shapeType === 'blocks') {
-                this.decomposeBlocks(canvases, width, height);
-            } else {
-                this.decomposeVoronoi(canvases, width, height);
-            }
-            
-            canvases.forEach((canvas, i) => this.addCanvasToDom(canvas, i));
-        },
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-        decomposeBlocks(canvases, width, height) {
-            const blockSize = Math.ceil(Math.sqrt((width * height) / (canvases.length * 5))); // Dynamic block size
+                if (actualBgColorForDecomp !== 'transparent') {
+                    ctx.fillStyle = actualBgColorForDecomp;
+                    ctx.fillRect(0, 0, width, height);
+                } else {
+                    ctx.clearRect(0, 0, width, height);
+                }
+                const layerImageData = ctx.getImageData(0, 0, width, height);
+                currentDecomposedCanvasesData.push({ canvas, ctx, imageData: layerImageData });
+
+                const itemContainer = document.createElement('div');
+                itemContainer.className = 'flex flex-col items-center gap-2 p-2 sm:p-3 bg-gray-100 rounded-lg mobile-layer-item';
+                updateCanvasBackgroundStyle(canvas, actualBgColorForDecomp === 'transparent');
+                canvas.className = 'max-w-full max-h-[80px] sm:max-h-[120px] rounded border border-gray-300';
+
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'w-full px-2 py-1 bg-success text-white text-xs rounded hover:bg-success-dark transition-colors duration-200 flex items-center justify-center gap-1';
+                downloadBtn.innerHTML = `<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> Layer ${i + 1}`;
+                downloadBtn.onclick = () => downloadCanvasAsImage(canvas, i);
+
+                itemContainer.appendChild(canvas);
+                itemContainer.appendChild(downloadBtn);
+                decomposedContainer.appendChild(itemContainer);
+            }
+        }
+
+        // Block Decomposition Logic
+        function decomposeImageBlocks(img, numPieces, blockSize, actualBgColorForDecomp, invertColors) {
+            const { width, height } = img;
+            createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp);
+
             for (let y = 0; y < height; y += blockSize) {
                 for (let x = 0; x < width; x += blockSize) {
-                    const pieceIndex = Math.floor(Math.random() * canvases.length);
-                    const ctx = canvases[pieceIndex].getContext('2d');
-                    const w = Math.min(blockSize, width - x);
-                    const h = Math.min(blockSize, height - y);
-                    ctx.drawImage(this.originalImage, x, y, w, h, x, y, w, h);
+                    const pieceIndex = Math.floor(Math.random() * numPieces);
+                    const targetLayer = currentDecomposedCanvasesData[pieceIndex];
+                    const targetImageData = targetLayer.imageData.data;
+
+                    const currentBlockWidth = Math.min(blockSize, width - x);
+                    const currentBlockHeight = Math.min(blockSize, height - y);
+
+                    for (let blockY = 0; blockY < currentBlockHeight; blockY++) {
+                        for (let blockX = 0; blockX < currentBlockWidth; blockX++) {
+                            const sourcePixelX = x + blockX;
+                            const sourcePixelY = y + blockY;
+
+                            const sourceIndex = (sourcePixelY * width + sourcePixelX) * 4;
+                            const targetIndex = (sourcePixelY * width + sourcePixelX) * 4;
+
+                            let r = originalImageData.data[sourceIndex];
+                            let g = originalImageData.data[sourceIndex + 1];
+                            let b = originalImageData.data[sourceIndex + 2];
+                            const a = originalImageData.data[sourceIndex + 3];
+
+                            if (invertColors) {
+                                r = 255 - r; g = 255 - g; b = 255 - b;
+                            }
+
+                            targetImageData[targetIndex] = r;
+                            targetImageData[targetIndex + 1] = g;
+                            targetImageData[targetIndex + 2] = b;
+                            targetImageData[targetIndex + 3] = a;
+                        }
+                    }
                 }
             }
-        },
+            currentDecomposedCanvasesData.forEach(layer => {
+                layer.ctx.putImageData(layer.imageData, 0, 0);
+            });
+            console.log("Block decomposition complete.");
+            triggerRecombinePreview();
+        }
 
-        decomposeVoronoi(canvases, width, height) {
-            const numSeeds = canvases.length * 100; // More seeds for detail
-            const seeds = Array.from({ length: numSeeds }, () => ({
-                x: Math.random() * width, y: Math.random() * height,
-                owner: Math.floor(Math.random() * canvases.length)
-            }));
-            
-            const sourceData = this.originalImageData.data;
-            const layerContexts = canvases.map(c => c.getContext('2d'));
-            const layerImageDatas = layerContexts.map(ctx => ctx.getImageData(0,0,width,height));
+        // Voronoi Decomposition Logic
+        function decomposeImageVoronoi(img, numPieces, numVoronoiSeeds, actualBgColorForDecomp, invertColors) {
+            const { width, height } = img;
+            createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp);
+
+            const seeds = [];
+            for (let i = 0; i < numVoronoiSeeds; i++) {
+                seeds.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    layerOwner: Math.floor(Math.random() * numPieces)
+                });
+            }
+
+            const sourceData = originalImageData.data;
 
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
-                    let minDistSq = Infinity, closestSeedOwner = 0;
-                    seeds.forEach(seed => {
-                        const distSq = (seed.x - x)**2 + (seed.y - y)**2;
-                        if (distSq < minDistSq) { minDistSq = distSq; closestSeedOwner = seed.owner; }
-                    });
-                    
+                    let minDistSq = Infinity;
+                    let closestSeedIndex = -1;
+
+                    for (let i = 0; i < seeds.length; i++) {
+                        const dx = seeds[i].x - x;
+                        const dy = seeds[i].y - y;
+                        const distSq = dx * dx + dy * dy;
+                        if (distSq < minDistSq) {
+                            minDistSq = distSq;
+                            closestSeedIndex = i;
+                        }
+                    }
+
+                    const owningLayerIndex = seeds[closestSeedIndex].layerOwner;
+                    const targetLayer = currentDecomposedCanvasesData[owningLayerIndex];
+                    const targetImageData = targetLayer.imageData.data;
+
                     const pixelIndex = (y * width + x) * 4;
-                    const targetData = layerImageDatas[closestSeedOwner].data;
-                    targetData[pixelIndex] = sourceData[pixelIndex];
-                    targetData[pixelIndex+1] = sourceData[pixelIndex+1];
-                    targetData[pixelIndex+2] = sourceData[pixelIndex+2];
-                    targetData[pixelIndex+3] = sourceData[pixelIndex+3];
+
+                    let r = sourceData[pixelIndex];
+                    let g = sourceData[pixelIndex + 1];
+                    let b = sourceData[pixelIndex + 2];
+                    const a = sourceData[pixelIndex + 3];
+
+                    if (invertColors) {
+                        r = 255 - r; g = 255 - g; b = 255 - b;
+                    }
+
+                    targetImageData[pixelIndex] = r;
+                    targetImageData[pixelIndex + 1] = g;
+                    targetImageData[pixelIndex + 2] = b;
+                    targetImageData[pixelIndex + 3] = a;
                 }
             }
-            layerContexts.forEach((ctx, i) => ctx.putImageData(layerImageDatas[i], 0, 0));
-        },
 
-        addCanvasToDom(canvas, index) {
-            const container = document.createElement('div');
-            container.style.textAlign = 'center';
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = `picgle_piece_${index + 1}_of_${canvas.length}.png`;
-            link.appendChild(canvas);
-            
-            const button = document.createElement('button');
-            button.textContent = `Download Piece ${index + 1}`;
-            button.className = 'app-button';
-            button.style.width = '100%';
-            button.style.marginTop = '5px';
-            button.onclick = () => link.click();
+            currentDecomposedCanvasesData.forEach(layer => {
+                layer.ctx.putImageData(layer.imageData, 0, 0);
+            });
 
-            container.appendChild(link);
-            container.appendChild(button);
-            this.decomposedContainer.appendChild(container);
+            console.log("Voronoi decomposition complete.");
+            triggerRecombinePreview();
         }
-    };
 
-    // --- Solver Module (formerly Blender Tool) ---
-    const Solver = {
-        imageLayers: [],
+        // Recombine Preview Logic
+        function recombineForPreview(decomposedCanvasesDataToUse, width, height, actualRecombinedBgColor) {
+            if (!decomposedCanvasesDataToUse || decomposedCanvasesDataToUse.length === 0) return;
+
+            recombinedCanvas.width = width;
+            recombinedCanvas.height = height;
+
+            updateCanvasBackgroundStyle(recombinedCanvas, actualRecombinedBgColor === 'transparent');
+            recombinedCtx.clearRect(0, 0, width, height);
+
+            if (actualRecombinedBgColor !== 'transparent') {
+                recombinedCtx.fillStyle = actualRecombinedBgColor;
+                recombinedCtx.fillRect(0, 0, width, height);
+            }
+
+            console.log(`Starting merge preview, blend mode: ${currentBlendMode}, background: ${actualRecombinedBgColor}`);
+            decomposedCanvasesDataToUse.forEach(({ canvas }) => {
+                recombinedCtx.globalCompositeOperation = currentBlendMode;
+                recombinedCtx.drawImage(canvas, 0, 0);
+            });
+            recombinedCtx.globalCompositeOperation = 'source-over';
+            console.log("Merge preview complete.");
+        }
+
+        // === BLEND FUNCTIONALITY ===
+        const blendImageUpload = document.getElementById('blendImageUpload');
+        const blendModeSelect = document.getElementById('blendModeSelect');
+        const globalInvertToggleBtn = document.getElementById('globalInvertToggleBtn');
+        const previewAreaContainer = document.getElementById('previewAreaContainer');
+        const previewArea = document.getElementById('previewArea');
+        const layerManager = document.getElementById('layerManager');
+        const downloadButton = document.getElementById('downloadButton');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const whiteBgMultiplyBtn = document.getElementById('whiteBgMultiplyBtn');
+        const blackBgScreenBtn = document.getElementById('blackBgScreenBtn');
+        const advancedBlendToggleBtn = document.getElementById('advancedBlendToggle');
+        const advancedBlendOptionsDiv = document.getElementById('advancedBlendOptions');
+
+        let imageLayers = [];
+        const defaultPreviewBg = '#e5e7eb';
+        let activeBlendConfig = {
+            mode: 'normal',
+            baseBackground: defaultPreviewBg
+        };
+        let isGlobalInverted = false;
+
+        // Blend Event Listeners
+        blendImageUpload.addEventListener('change', (event) => {
+            updateFileLabel(event.target, 'blendFileLabel', true);
+            handleImageUpload(event);
+        });
         
-        init() {
-            this.imageUpload = document.getElementById('blender_imageUpload');
-            this.previewArea = document.getElementById('blender_previewArea');
-            this.layerManager = document.getElementById('blender_layerManager');
-            this.clearAllBtn = document.getElementById('blender_clearAllBtn');
-            this.downloadButton = document.getElementById('blender_downloadButton');
+        blendModeSelect.addEventListener('change', () => {
+            if (advancedBlendOptionsDiv.classList.contains('hidden')) return;
+            activeBlendConfig.mode = blendModeSelect.value;
+            activeBlendConfig.baseBackground = defaultPreviewBg;
+            updateActiveButtonStates();
+            applyStylesToPreview();
+        });
+        globalInvertToggleBtn.addEventListener('click', () => {
+            isGlobalInverted = !isGlobalInverted;
+            updateActiveButtonStates();
+            applyStylesToPreview();
+        });
+        downloadButton.addEventListener('click', downloadImage);
+        clearAllBtn.addEventListener('click', clearAllImages);
+        whiteBgMultiplyBtn.addEventListener('click', () => setQuickBlendMode('multiply', 'white'));
+        blackBgScreenBtn.addEventListener('click', () => setQuickBlendMode('screen', 'black'));
+        advancedBlendToggleBtn.addEventListener('click', toggleAdvancedMode);
 
-            this.imageUpload.addEventListener('change', this.handleImageUpload.bind(this));
-            this.clearAllBtn.addEventListener('click', this.clearAll.bind(this));
-        },
+        // Blend Functions
+        function clearAllImages() {
+            imageLayers = [];
+            blendImageUpload.value = '';
+            updateFileLabel(blendImageUpload, 'blendFileLabel', true);
+            activeBlendConfig = {
+                mode: 'normal',
+                baseBackground: defaultPreviewBg
+            };
+            blendModeSelect.value = 'normal';
+            isGlobalInverted = false;
+            if (!advancedBlendOptionsDiv.classList.contains('hidden')) {
+                advancedBlendOptionsDiv.classList.add('hidden');
+            }
+            updateActiveButtonStates();
+            renderAll();
+        }
 
-        async handleImageUpload(event) {
+        function setQuickBlendMode(mode, bgColor) {
+            activeBlendConfig.mode = mode;
+            activeBlendConfig.baseBackground = bgColor;
+            advancedBlendOptionsDiv.classList.add('hidden');
+            blendModeSelect.value = mode;
+            updateActiveButtonStates();
+            applyStylesToPreview();
+        }
+
+        function toggleAdvancedMode() {
+            const isHidden = advancedBlendOptionsDiv.classList.toggle('hidden');
+            if (!isHidden) {
+                activeBlendConfig.mode = blendModeSelect.value;
+                activeBlendConfig.baseBackground = defaultPreviewBg;
+            } else {
+                if (!(activeBlendConfig.baseBackground === 'white' && activeBlendConfig.mode === 'multiply') &&
+                    !(activeBlendConfig.baseBackground === 'black' && activeBlendConfig.mode === 'screen')) {
+                    activeBlendConfig.mode = 'normal';
+                    blendModeSelect.value = 'normal';
+                    activeBlendConfig.baseBackground = defaultPreviewBg;
+                }
+            }
+            updateActiveButtonStates();
+            applyStylesToPreview();
+        }
+
+        function updateActiveButtonStates() {
+            // Quick blend buttons
+            const whiteMultiplyActive = advancedBlendOptionsDiv.classList.contains('hidden') &&
+                activeBlendConfig.mode === 'multiply' && activeBlendConfig.baseBackground === 'white';
+            const blackScreenActive = advancedBlendOptionsDiv.classList.contains('hidden') &&
+                activeBlendConfig.mode === 'screen' && activeBlendConfig.baseBackground === 'black';
+
+            if (whiteMultiplyActive) {
+                whiteBgMultiplyBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                whiteBgMultiplyBtn.classList.add('bg-green-500', 'text-white');
+            } else {
+                whiteBgMultiplyBtn.classList.remove('bg-green-500', 'text-white');
+                whiteBgMultiplyBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            }
+
+            if (blackScreenActive) {
+                blackBgScreenBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                blackBgScreenBtn.classList.add('bg-green-500', 'text-white');
+            } else {
+                blackBgScreenBtn.classList.remove('bg-green-500', 'text-white');
+                blackBgScreenBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            }
+
+            // Advanced toggle
+            if (!advancedBlendOptionsDiv.classList.contains('hidden')) {
+                advancedBlendToggleBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                advancedBlendToggleBtn.classList.add('bg-green-500', 'text-white');
+            } else {
+                advancedBlendToggleBtn.classList.remove('bg-green-500', 'text-white');
+                advancedBlendToggleBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            }
+
+            // Global invert
+            if (isGlobalInverted) {
+                globalInvertToggleBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                globalInvertToggleBtn.classList.add('bg-green-500', 'text-white');
+            } else {
+                globalInvertToggleBtn.classList.remove('bg-green-500', 'text-white');
+                globalInvertToggleBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+            }
+        }
+
+        async function handleImageUpload(event) {
             const files = event.target.files;
             if (!files.length) return;
-            this.imageUpload.value = ''; // Reset for re-uploading
-            
+            const newLayers = [];
             for (const file of files) {
                 if (file.type.startsWith('image/')) {
-                    const src = await this.readFileAsDataURL(file);
-                    this.imageLayers.push({ src, name: file.name });
+                    try {
+                        const src = await readFileAsDataURL(file);
+                        newLayers.push({
+                            id: `layer-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                            src: src,
+                            name: file.name,
+                            filters: { invert: false }
+                        });
+                    } catch (err) {
+                        console.error("File reading error:", err);
+                        alert(`Error reading ${file.name}`);
+                    }
                 }
             }
-            this.render();
-        },
+            imageLayers = [...newLayers.reverse(), ...imageLayers];
+            renderAll();
+        }
 
-        render() {
-            this.previewArea.innerHTML = '';
-            this.layerManager.innerHTML = '';
-
-            if(!this.imageLayers.length) {
-                 this.layerManager.innerHTML = '<p>Upload pieces to see them here.</p>';
-                 this.downloadButton.style.display = 'none';
-                 return;
-            }
-
-            this.imageLayers.forEach(layer => {
-                const img = document.createElement('img');
-                img.src = layer.src;
-                this.previewArea.appendChild(img);
-
-                const layerChip = document.createElement('span');
-                layerChip.textContent = layer.name;
-                layerChip.style.cssText = 'background:#eee; padding: 5px 10px; border-radius:15px; font-size:0.9em;';
-                this.layerManager.appendChild(layerChip);
-            });
-            this.downloadButton.style.display = 'block';
-            this.downloadButton.onclick = (e) => this.downloadImage(e);
-        },
-
-        downloadImage(e) {
-            e.preventDefault();
-            const canvas = document.createElement('canvas');
-            const firstImg = this.previewArea.querySelector('img');
-            if(!firstImg) return;
-            
-            const tempImage = new Image();
-            tempImage.onload = () => {
-                canvas.width = tempImage.width;
-                canvas.height = tempImage.height;
-                const ctx = canvas.getContext('2d');
-                
-                Array.from(this.previewArea.querySelectorAll('img')).forEach(imgNode => {
-                     ctx.globalCompositeOperation = 'multiply';
-                     ctx.drawImage(imgNode, 0, 0, canvas.width, canvas.height);
-                });
-
-                e.target.href = canvas.toDataURL('image/png');
-                e.target.click();
-            };
-            tempImage.src = firstImg.src;
-        },
-
-        clearAll() {
-            this.imageLayers = [];
-            this.render();
-        },
-
-        readFileAsDataURL(file) {
-            return new Promise((resolve) => {
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (err) => reject(err);
                 reader.readAsDataURL(file);
             });
         }
-    };
 
-    document.addEventListener('DOMContentLoaded', () => PicgleApp.init());
+        function renderAll() {
+            renderLayerManager();
+            renderPreviewImages();
+            applyStylesToPreview();
+        }
 
+        function renderLayerManager() {
+            layerManager.innerHTML = '';
+            if (!imageLayers.length) {
+                layerManager.innerHTML = '<p class="text-center text-gray-500 text-sm">Please upload images first.</p>';
+                return;
+            }
+            imageLayers.forEach((layer) => {
+                const item = document.createElement('div');
+                item.className = 'layer-item flex items-center justify-between p-2 bg-white border border-gray-200 mb-2 rounded cursor-grab shadow-sm hover:shadow-md transition-shadow duration-200 mobile-layer-item';
+                item.draggable = true;
+                item.dataset.id = layer.id;
+
+                const leftSection = document.createElement('div');
+                leftSection.className = 'flex items-center flex-1';
+
+                const thumb = document.createElement('img');
+                thumb.src = layer.src;
+                thumb.className = 'w-8 h-6 sm:w-10 sm:h-8 mobile-layer-thumb object-cover rounded border border-gray-300 mr-2 sm:mr-3';
+                thumb.alt = "thumbnail";
+
+                const name = document.createElement('span');
+                name.className = 'text-xs sm:text-sm text-gray-800 truncate flex-1 pr-2';
+                name.textContent = layer.name.length > 15 ? layer.name.substring(0, 12) + '...' : layer.name;
+
+                const invertBtn = document.createElement('button');
+                invertBtn.textContent = 'Invert';
+                invertBtn.className = 'px-2 py-1 text-xs rounded transition-colors duration-200';
+                if (layer.filters.invert) {
+                    invertBtn.classList.add('bg-green-500', 'text-white');
+                } else {
+                    invertBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                }
+                invertBtn.dataset.layerId = layer.id;
+                invertBtn.onclick = function() {
+                    const currentLayer = imageLayers.find(l => l.id === this.dataset.layerId);
+                    if (currentLayer) {
+                        currentLayer.filters.invert = !currentLayer.filters.invert;
+                        if (currentLayer.filters.invert) {
+                            this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                            this.classList.add('bg-green-500', 'text-white');
+                        } else {
+                            this.classList.remove('bg-green-500', 'text-white');
+                            this.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                        }
+                        applyStylesToPreview();
+                    }
+                };
+
+                leftSection.appendChild(thumb);
+                leftSection.appendChild(name);
+                item.appendChild(leftSection);
+                item.appendChild(invertBtn);
+                layerManager.appendChild(item);
+
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('dragleave', handleDragLeave);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function renderPreviewImages() {
+            previewArea.innerHTML = '';
+            [...imageLayers].reverse().forEach(layer => {
+                const img = document.createElement('img');
+                img.src = layer.src;
+                img.alt = layer.name;
+                img.dataset.id = layer.id;
+                img.className = 'absolute top-0 left-0 w-full h-full object-contain';
+                previewArea.appendChild(img);
+            });
+        }
+
+        function applyStylesToPreview() {
+            previewAreaContainer.style.backgroundColor = activeBlendConfig.baseBackground;
+            const images = previewArea.getElementsByTagName('img');
+            for (let i = 0; i < images.length; i++) {
+                const imgElement = images[i];
+                const layerId = imgElement.dataset.id;
+                const layerData = imageLayers.find(l => l.id === layerId);
+                if (!layerData) continue;
+                imgElement.style.filter = layerData.filters.invert ? 'invert(1)' : 'none';
+                const isBottomLayerInStack = (imageLayers.length > 0 && layerId === imageLayers[imageLayers.length - 1].id);
+                if (isBottomLayerInStack || imageLayers.length <= 1) {
+                    imgElement.style.mixBlendMode = 'normal';
+                } else {
+                    imgElement.style.mixBlendMode = activeBlendConfig.mode;
+                }
+            }
+            previewAreaContainer.style.filter = isGlobalInverted ? 'invert(1)' : 'none';
+        }
+
+        // Drag and Drop Functions
+        let draggedItem = null;
+        let dropIndicator = null;
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.layer-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function handleDragStart(e) {
+            draggedItem = e.target.closest('.layer-item');
+            if (!draggedItem) return;
+            draggedItem.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', draggedItem.dataset.id);
+            if (!dropIndicator) {
+                dropIndicator = document.createElement('div');
+                dropIndicator.className = 'drop-indicator';
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            const container = layerManager;
+            const afterElement = getDragAfterElement(container, e.clientY);
+            const draggingElement = container.querySelector('.dragging');
+            if (afterElement == null) {
+                if (draggingElement !== container.lastChild && (container.lastChild !== dropIndicator || !container.contains(dropIndicator))) {
+                    container.appendChild(dropIndicator);
+                }
+            } else {
+                if (draggingElement !== afterElement && (afterElement.previousSibling !== draggingElement || !container.contains(dropIndicator))) {
+                    container.insertBefore(dropIndicator, afterElement);
+                }
+            }
+        }
+
+        function handleDragLeave(e) {
+            if (!layerManager.contains(e.relatedTarget) && dropIndicator && dropIndicator.parentNode) {
+                dropIndicator.parentNode.removeChild(dropIndicator);
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (!draggedItem) return;
+            const draggedId = draggedItem.dataset.id;
+            const draggedIndex = imageLayers.findIndex(l => l.id === draggedId);
+            if (draggedIndex === -1) {
+                if (dropIndicator && dropIndicator.parentNode) {
+                    dropIndicator.parentNode.removeChild(dropIndicator);
+                }
+                draggedItem = null;
+                return;
+            }
+            const [draggedLayerData] = imageLayers.splice(draggedIndex, 1);
+            let targetIndex;
+            if (dropIndicator && dropIndicator.parentNode) {
+                targetIndex = Array.from(layerManager.children).indexOf(dropIndicator);
+                imageLayers.splice(targetIndex, 0, draggedLayerData);
+                dropIndicator.parentNode.removeChild(dropIndicator);
+            } else {
+                imageLayers.push(draggedLayerData);
+            }
+            renderAll();
+        }
+
+        function handleDragEnd(e) {
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging');
+            }
+            draggedItem = null;
+            if (dropIndicator && dropIndicator.parentNode) {
+                dropIndicator.parentNode.removeChild(dropIndicator);
+            }
+        }
+
+        async function downloadImage() {
+            if (!imageLayers.length) {
+                alert("No images to download.");
+                return;
+            }
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const previewRect = previewAreaContainer.getBoundingClientRect();
+            canvas.width = previewRect.width > 0 ? previewRect.width : 700;
+            canvas.height = previewRect.height > 0 ? previewRect.height : 525;
+
+            ctx.fillStyle = activeBlendConfig.baseBackground;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const reversedLayers = [...imageLayers].reverse();
+            for (let i = 0; i < reversedLayers.length; i++) {
+                const layer = reversedLayers[i];
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = (err) => {
+                        console.error(`Error loading image ${layer.name} for canvas:`, err);
+                        reject(err);
+                    };
+                    img.src = layer.src;
+                });
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = img.naturalWidth || img.width;
+                tempCanvas.height = img.naturalHeight || img.height;
+                if (layer.filters.invert) {
+                    tempCtx.filter = 'invert(1)';
+                }
+                tempCtx.drawImage(img, 0, 0);
+                const hRatio = canvas.width / tempCanvas.width;
+                const vRatio = canvas.height / tempCanvas.height;
+                const ratio = Math.min(hRatio, vRatio);
+                const drawWidth = tempCanvas.width * ratio;
+                const drawHeight = tempCanvas.height * ratio;
+                const drawX = (canvas.width - drawWidth) / 2;
+                const drawY = (canvas.height - drawHeight) / 2;
+                const isBottomLayerInStack = (imageLayers.length > 0 && layer.id === imageLayers[imageLayers.length - 1].id);
+                if (isBottomLayerInStack || imageLayers.length <= 1) {
+                    ctx.globalCompositeOperation = 'source-over';
+                } else {
+                    ctx.globalCompositeOperation = activeBlendConfig.mode;
+                }
+                ctx.drawImage(tempCanvas, drawX, drawY, drawWidth, drawHeight);
+            }
+            ctx.globalCompositeOperation = 'source-over';
+            if (isGlobalInverted) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                for (let j = 0; j < data.length; j += 4) {
+                    data[j] = 255 - data[j];
+                    data[j + 1] = 255 - data[j + 1];
+                    data[j + 2] = 255 - data[j + 2];
+                }
+                ctx.putImageData(imageData, 0, 0);
+            }
+            try {
+                const dataURL = canvas.toDataURL('image/png');
+                const a = document.createElement('a');
+                a.href = dataURL;
+                a.download = `getpicgle_blended_image_${Date.now()}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (e) {
+                console.error("Error creating data URL or downloading:", e);
+                alert("Failed to download image.");
+            }
+        }
+
+        // Initialize
+        updateActiveButtonStates();
+        renderLayerManager();
+
+        // Add JSON-LD structured data for SEO
+        const structuredData = {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "GetPicgle",
+            "description": "Advanced online image processing tool for decomposing, blending, and editing images with Voronoi patterns and layer management",
+            "url": "https://getpicgle.com",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "featureList": [
+                "Image decomposition with blocks and Voronoi patterns",
+                "Advanced layer blending with multiple blend modes",
+                "Color inversion and processing effects",
+                "Drag-and-drop layer management",
+                "High-quality image download"
+            ],
+            "screenshot": "https://getpicgle.com/screenshot.jpg",
+            "author": {
+                "@type": "Organization",
+                "name": "GetPicgle"
+            }
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(structuredData);
+        document.head.appendChild(script);
+
+        // Add performance monitoring
+        window.addEventListener('load', () => {
+            if ('performance' in window) {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                console.log(`Page load time: ${loadTime}ms`);
+            }
+        });
+
+        // Add error tracking
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+        });
+
+        // Add service worker registration for PWA capabilities (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+
+        // Mobile-specific optimizations
+        function handleMobileViewport() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        window.addEventListener('resize', handleMobileViewport);
+        window.addEventListener('orientationchange', handleMobileViewport);
+        handleMobileViewport();
+
+        // Touch event handling for better mobile experience
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!e.target.closest('.layer-item')) return;
+            
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            const deltaX = touchX - touchStartX;
+            const deltaY = touchY - touchStartY;
+            
+            // Prevent scrolling when dragging layer items
+            if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 10) {
+                // Allow vertical scrolling in layer manager
+                return;
+            }
+            
+            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevent zoom on double tap for canvas elements
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = new Date().getTime();
+            if (now - lastTouchEnd <= 300) {
+                if (e.target.tagName === 'CANVAS') {
+                    e.preventDefault();
+                }
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+
+    <!-- Additional SEO and performance optimization -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Web App Manifest for PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <!-- Additional meta tags for better indexing -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="language" content="en">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    
+    <!-- Open Graph additional tags -->
+    <meta property="og:site_name" content="GetPicgle">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="GetPicgle">
+    
+    <!-- Schema.org markup in head -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "GetPicgle",
+        "url": "https://getpicgle.com",
+        "logo": "https://getpicgle.com/logo.png",
+        "sameAs": [
+            "https://twitter.com/getpicgle",
+            "https://github.com/getpicgle"
+        ]
+    }
     </script>
 </body>
 </html>
