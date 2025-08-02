@@ -91,13 +91,13 @@ function closeShareModal() {
 // 社交分享函数
 function shareToTwitter() {
     const text = "🎨 Just discovered Picgle - an amazing free tool for image decomposition and blending! Create stunning visual effects with Voronoi patterns and advanced layer blending. Check it out:";
-    const url = "https://picgle.com";
+    const url = "https://www.picgle.org";
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
     unlockAdvancedFeatures();
 }
 
 function shareToFacebook() {
-    const url = "https://picgle.com";
+    const url = "https://www.picgle.org";
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
     unlockAdvancedFeatures();
 }
@@ -105,27 +105,27 @@ function shareToFacebook() {
 function shareToLinkedIn() {
     const title = "Picgle - Advanced Image Processing Tool";
     const summary = "Free online tool for image decomposition and blending with advanced features";
-    const url = "https://picgle.com";
+    const url = "https://www.picgle.org";
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
     unlockAdvancedFeatures();
 }
 
 function shareToReddit() {
     const title = "Picgle - Free Advanced Image Processing Tool";
-    const url = "https://picgle.com";
+    const url = "https://www.picgle.org";
     window.open(`https://reddit.com/submit?title=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
     unlockAdvancedFeatures();
 }
 
 function shareToTelegram() {
     const text = "🎨 Check out Picgle - an amazing free tool for image decomposition and blending!";
-    const url = "https://picgle.com";
+    const url = "https://www.picgle.org";
     window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
     unlockAdvancedFeatures();
 }
 
 function shareToWhatsApp() {
-    const text = "🎨 Check out Picgle - an amazing free tool for image decomposition and blending! https://picgle.com";
+    const text = "🎨 Check out Picgle - an amazing free tool for image decomposition and blending! https://www.picgle.org";
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     unlockAdvancedFeatures();
 }
