@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Picgle</title>
+    <meta name="description" content="Oops! The page you're looking for seems to have been decomposed into too many pieces.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#3b82f6',
+                        'primary-dark': '#2563eb',
+                        'success': '#10b981',
+                        'success-dark': '#059669',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .transparent-bg {
+            background-image:
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .rotate-slow {
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .pixel-block {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-2xl sm:text-3xl font-bold text-primary hover:text-primary-dark transition-colors">Picgle</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+            <!-- Animated 404 Graphic -->
+            <div class="relative mb-8 inline-block">
+                <div class="transparent-bg w-48 h-48 sm:w-64 sm:h-64 rounded-lg relative overflow-hidden floating">
+                    <!-- Decomposed Pixel Blocks -->
+                    <div class="pixel-block bg-primary" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+                    <div class="pixel-block bg-success" style="top: 40%; left: 70%; animation-delay: 0.5s;"></div>
+                    <div class="pixel-block bg-orange-500" style="top: 60%; left: 30%; animation-delay: 1s;"></div>
+                    <div class="pixel-block bg-red-500" style="top: 25%; left: 60%; animation-delay: 1.5s;"></div>
+                    <div class="pixel-block bg-purple-500" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+                    
+                    <!-- 404 Text -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-6xl sm:text-8xl font-bold text-gray-800 opacity-20 rotate-slow">404</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                Oops! This image got decomposed
+            </h1>
+            <p class="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+                Looks like this page has been broken down into too many pieces and we can't seem to blend it back together. The page you're looking for doesn't exist.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/" class="px-6 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary-dark transition-colors duration-200 inline-flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Go Home
+                </a>
+                <button onclick="history.back()" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-md font-medium hover:bg-gray-200 transition-colors duration-200 inline-flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Go Back
+                </button>
+            </div>
+
+            <!-- Helpful Links -->
+            <div class="mt-12 pt-8 border-t border-gray-200">
+                <p class="text-gray-600 mb-4">Here are some helpful links:</p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <a href="/#decomposeContent" class="text-primary hover:text-primary-dark">Decompose Images</a>
+                    <span class="text-gray-400">•</span>
+                    <a href="/#blendContent" class="text-primary hover:text-primary-dark">Blend Images</a>
+                    <span class="text-gray-400">•</span>
+                    <a href="/#helpContent" class="text-primary hover:text-primary-dark">How to Use</a>
+                    <span class="text-gray-400">•</span>
+                    <a href="/#aboutContent" class="text-primary hover:text-primary-dark">About</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center">
+                <p class="text-gray-600 text-sm">
+                    &copy; 2024 Picgle. All rights reserved. • 
+                    <a href="mailto:support@picgle.com" class="text-primary hover:text-primary-dark">Contact Support</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add floating animation to pixel blocks
+        document.querySelectorAll('.pixel-block').forEach((block, index) => {
+            block.style.animation = `float ${3 + index * 0.5}s ease-in-out infinite`;
+            block.style.animationDelay = `${index * 0.2}s`;
+        });
+
+        // Add some interactivity - make blocks scatter on hover
+        const container = document.querySelector('.transparent-bg');
+        container.addEventListener('mouseenter', () => {
+            document.querySelectorAll('.pixel-block').forEach(block => {
+                const randomX = (Math.random() - 0.5) * 100;
+                const randomY = (Math.random() - 0.5) * 100;
+                block.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                block.style.transition = 'transform 0.5s ease-out';
+            });
+        });
+
+        container.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.pixel-block').forEach(block => {
+                block.style.transform = 'translate(0, 0)';
+            });
+        });
+    </script>
+</body>
+</html>
