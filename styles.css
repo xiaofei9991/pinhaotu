@@ -1,0 +1,339 @@
+/* styles.css */
+
+/* 基础样式 */
+.transparent-bg {
+    background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+.layer-item.dragging { 
+    opacity: 0.6; 
+}
+
+.drop-indicator { 
+    height: 3px; 
+    background-color: #3b82f6; 
+    margin: 4px 0; 
+    border-radius: 2px; 
+}
+
+/* 自定义文件输入样式 */
+.custom-file-input {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-file-input input[type="file"] {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.custom-file-label {
+    display: block;
+    padding: 12px 16px;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: #6b7280;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.custom-file-label:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.custom-file-label.has-file {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.file-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+
+/* 水印样式 */
+.watermark-container {
+    position: relative;
+    display: inline-block;
+}
+
+.watermark {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* ZIP下载按钮修复 */
+#downloadAllZipBtn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 社交分享模态框 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+}
+
+.social-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social-btn {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.twitter { background-color: #1da1f2; }
+.facebook { background-color: #1877f2; }
+.linkedin { background-color: #0077b5; }
+.reddit { background-color: #ff4500; }
+.telegram { background-color: #0088cc; }
+.whatsapp { background-color: #25d366; }
+
+/* 进度条样式 */
+.progress-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.progress-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 10px;
+}
+
+/* FAQ手风琴 */
+.faq-item {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.faq-question {
+    cursor: pointer;
+    padding: 1rem 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer.open {
+    max-height: 500px;
+    padding-bottom: 1rem;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+}
+
+.faq-icon.rotated {
+    transform: rotate(180deg);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .mobile-stack {
+        display: block;
+    }
+    
+    .mobile-full-width {
+        width: 100%;
+    }
+    
+    .mobile-sticky-controls {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        margin: -1.5rem -1rem 1.5rem -1rem;
+        padding: 1rem;
+    }
+    
+    .mobile-preview-container {
+        min-height: 250px;
+        max-height: 300px;
+    }
+    
+    .mobile-canvas {
+        max-width: 100%;
+        max-height: 200px;
+    }
+    
+    .mobile-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .mobile-layer-item {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .mobile-layer-thumb {
+        width: 32px;
+        height: 24px;
+    }
+    
+    .mobile-button-stack {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .mobile-text-sm {
+        font-size: 0.875rem;
+    }
+    
+    .mobile-compact-header {
+        padding: 0.75rem 0;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+    }
+    
+    .social-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .mobile-extra-compact {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .social-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { 
+        animation-duration: 0.01ms !important; 
+        animation-iteration-count: 1 !important; 
+        transition-duration: 0.01ms !important; 
+    }
+}

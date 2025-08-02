@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GetPicgle - Advanced Image Decomposition & Blending Tool | Free Online Image Editor</title>
-    <meta name="description" content="GetPicgle is a powerful online image processing tool for decomposing, blending, and editing images. Features include Voronoi decomposition, layer blending, color inversion, and more.">
-    <meta name="keywords" content="image processing, image decomposition, image blending, Voronoi, online image editor, photo editor, image layers">
-    <meta name="author" content="GetPicgle">
+    <title>Picgle - Free Online Image Decomposition & Blending Tool | Advanced Photo Editor</title>
+    <meta name="description" content="Transform your images with Picgle's powerful decomposition and blending tools. Create stunning visual effects using Voronoi patterns, layer blending, and advanced image processing - completely free online.">
+    <meta name="keywords" content="image processing, image decomposition, image blending, Voronoi, online image editor, photo editor, image layers, free photo editing">
+    <meta name="author" content="Picgle">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://getpicgle.com">
-    <meta property="og:title" content="GetPicgle - Advanced Image Processing Tool">
+    <meta property="og:url" content="https://picgle.com">
+    <meta property="og:title" content="Picgle - Advanced Image Processing Tool">
     <meta property="og:description" content="Free online image decomposition and blending tool with advanced features">
-    <meta property="og:image" content="https://getpicgle.com/og-image.jpg">
+    <meta property="og:image" content="https://picgle.com/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://getpicgle.com">
-    <meta property="twitter:title" content="GetPicgle - Advanced Image Processing Tool">
+    <meta property="twitter:url" content="https://picgle.com">
+    <meta property="twitter:title" content="Picgle - Advanced Image Processing Tool">
     <meta property="twitter:description" content="Free online image decomposition and blending tool with advanced features">
-    <meta property="twitter:image" content="https://getpicgle.com/og-image.jpg">
+    <meta property="twitter:image" content="https://picgle.com/og-image.jpg">
 
-    <link rel="canonical" href="https://getpicgle.com">
+    <link rel="canonical" href="https://picgle.com">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -38,156 +40,42 @@
             }
         }
     </script>
-    <style>
-        .transparent-bg {
-            background-image:
-                linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
-                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
-                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
-            background-size: 16px 16px;
-            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-        }
-        .layer-item.dragging { opacity: 0.6; }
-        .drop-indicator { height: 3px; background-color: #3b82f6; margin: 4px 0; border-radius: 2px; }
-        
-        /* Custom file input styles for mobile */
-        .custom-file-input {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        
-        .custom-file-input input[type="file"] {
-            position: absolute;
-            left: -9999px;
-            opacity: 0;
-        }
-        
-        .custom-file-label {
-            display: block;
-            padding: 12px 16px;
-            background: #f9fafb;
-            border: 2px dashed #d1d5db;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            color: #6b7280;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .custom-file-label:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            color: #3b82f6;
-        }
-        
-        .custom-file-label.has-file {
-            background: #ecfdf5;
-            border-color: #10b981;
-            color: #065f46;
-        }
-        
-        .file-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 4px;
-            opacity: 0.7;
-        }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .mobile-stack {
-                display: block;
-            }
-            
-            .mobile-full-width {
-                width: 100%;
-            }
-            
-            .mobile-sticky-controls {
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                background: white;
-                border-bottom: 1px solid #e5e7eb;
-                margin: -1.5rem -1rem 1.5rem -1rem;
-                padding: 1rem;
-            }
-            
-            .mobile-preview-container {
-                min-height: 250px;
-                max-height: 300px;
-            }
-            
-            .mobile-canvas {
-                max-width: 100%;
-                max-height: 200px;
-            }
-            
-            .mobile-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            .mobile-layer-item {
-                padding: 0.75rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .mobile-layer-thumb {
-                width: 32px;
-                height: 24px;
-            }
-            
-            .mobile-button-stack {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .mobile-text-sm {
-                font-size: 0.875rem;
-            }
-            
-            .mobile-compact-header {
-                padding: 0.75rem 0;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .mobile-grid {
-                grid-template-columns: repeat(1, 1fr);
-            }
-            
-            .mobile-extra-compact {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+    
+    <!-- JSZip for ZIP downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
+    <!-- Progress Overlay -->
+    <div id="progressOverlay" class="progress-overlay">
+        <div class="progress-content">
+            <h3 class="text-lg font-semibold mb-3">Processing...</h3>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressText" class="progress-text">Please wait...</p>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 mobile-compact-header">
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl sm:text-3xl font-bold text-primary">GetPicgle</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-primary">Picgle</h1>
                 <nav class="hidden md:flex space-x-6">
                     <button onclick="showTab('decompose')" id="decomposeTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200 border-b-2 border-primary">
                         Decompose
                     </button>
                     <button onclick="showTab('blend')" id="blendTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200">
                         Blend
+                    </button>
+                    <button onclick="showTab('help')" id="helpTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200">
+                        How to Use
+                    </button>
+                    <button onclick="showTab('about')" id="aboutTab" class="text-gray-700 hover:text-primary font-medium transition-colors duration-200">
+                        About
                     </button>
                 </nav>
             </div>
@@ -197,13 +85,57 @@
     <!-- Mobile Navigation -->
     <div class="md:hidden bg-white border-b">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="flex space-x-4 py-2">
-                <button onclick="showTab('decompose')" id="decomposeTabMobile" class="flex-1 py-2 text-center text-sm font-medium text-primary border-b-2 border-primary">
+            <div class="flex space-x-2 py-2 overflow-x-auto">
+                <button onclick="showTab('decompose')" id="decomposeTabMobile" class="flex-1 py-2 px-3 text-center text-sm font-medium text-primary border-b-2 border-primary whitespace-nowrap">
                     Decompose
                 </button>
-                <button onclick="showTab('blend')" id="blendTabMobile" class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                <button onclick="showTab('blend')" id="blendTabMobile" class="flex-1 py-2 px-3 text-center text-sm font-medium text-gray-500 whitespace-nowrap">
                     Blend
                 </button>
+                <button onclick="showTab('help')" id="helpTabMobile" class="flex-1 py-2 px-3 text-center text-sm font-medium text-gray-500 whitespace-nowrap">
+                    Help
+                </button>
+                <button onclick="showTab('about')" id="aboutTabMobile" class="flex-1 py-2 px-3 text-center text-sm font-medium text-gray-500 whitespace-nowrap">
+                    About
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShareModal()">&times;</span>
+            <h2 class="text-xl font-bold mb-4">Share Picgle to unlock more pieces!</h2>
+            <p class="text-gray-600 mb-4">Help us spread the word and unlock the ability to create 5-100 pieces instead of the default 5-15 limit.</p>
+            <div class="social-buttons">
+                <a href="#" class="social-btn twitter" onclick="shareToTwitter()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                    Twitter
+                </a>
+                <a href="#" class="social-btn facebook" onclick="shareToFacebook()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    Facebook
+                </a>
+                <a href="#" class="social-btn linkedin" onclick="shareToLinkedIn()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    LinkedIn
+                </a>
+                <a href="#" class="social-btn reddit" onclick="shareToReddit()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+                    Reddit
+                </a>
+                <a href="#" class="social-btn telegram" onclick="shareToTelegram()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    Telegram
+                </a>
+                <a href="#" class="social-btn whatsapp" onclick="shareToWhatsApp()">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                    WhatsApp
+                </a>
+            </div>
+            <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                <p class="text-sm text-gray-600">After sharing, come back and the advanced limits will be unlocked automatically!</p>
             </div>
         </div>
     </div>
@@ -245,8 +177,8 @@
 
                         <!-- Unlock Advanced -->
                         <div class="mb-4 sm:mb-6" id="advancedUnlockGroup">
-                            <button id="unlockAdvancedDecomposeButton" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 text-sm mobile-text-sm">
-                                Want more pieces? (Unlock 5-100)
+                            <button id="unlockAdvancedDecomposeButton" class="w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors duration-200 text-sm mobile-text-sm">
+                                🚀 Share to unlock 5-100 pieces!
                             </button>
                         </div>
 
@@ -298,6 +230,14 @@
                             </div>
                         </div>
 
+                        <!-- Watermark Toggle -->
+                        <div class="mb-4 sm:mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="decomposeWatermarkToggle" checked class="mr-2 text-primary focus:ring-primary">
+                                <span class="text-sm font-medium text-gray-700">Add Picgle watermark</span>
+                            </label>
+                        </div>
+
                         <!-- Decompose Button -->
                         <button id="decomposeButton" class="w-full px-4 py-3 bg-success text-white rounded-md font-medium hover:bg-success-dark transition-colors duration-200 flex items-center justify-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,13 +254,24 @@
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
                         <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Original Image</h3>
                         <div class="flex justify-center items-center bg-gray-100 rounded-lg min-h-[150px] sm:min-h-[200px] mobile-preview-container p-4">
-                            <canvas id="originalImageCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border"></canvas>
+                            <div class="watermark-container">
+                                <canvas id="originalImageCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border" alt="Original uploaded image"></canvas>
+                                <div id="originalWatermark" class="watermark" style="display: none;">Picgle</div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Decomposed Layers -->
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
-                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Decomposed Layers</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900">Decomposed Layers</h3>
+                            <button id="downloadAllZipBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200 items-center gap-2 text-sm" style="display: none;">
+                                <svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Download All as ZIP
+                            </button>
+                        </div>
                         <div id="decomposedImagesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mobile-grid gap-3 sm:gap-4">
                             <!-- Decomposed images will appear here -->
                         </div>
@@ -330,7 +281,7 @@
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
                         <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Merged Preview <span id="blendModeInfo" class="text-sm text-gray-500 font-normal"></span></h3>
                         <div class="flex justify-center items-center bg-gray-100 rounded-lg min-h-[150px] sm:min-h-[200px] mobile-preview-container p-4">
-                            <canvas id="recombinedCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border"></canvas>
+                            <canvas id="recombinedCanvas" class="transparent-bg max-w-full max-h-[200px] sm:max-h-[300px] mobile-canvas rounded border" alt="Merged preview of decomposed layers"></canvas>
                         </div>
                     </div>
                 </div>
@@ -364,8 +315,16 @@
                             </div>
                         </div>
 
-                        <!-- Clear All -->
+                        <!-- Watermark Toggle -->
                         <div class="mb-4 sm:mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="blendWatermarkToggle" checked class="mr-2 text-primary focus:ring-primary">
+                                <span class="text-sm font-medium text-gray-700">Add Picgle watermark</span>
+                            </label>
+                        </div>
+
+                        <!-- Clear All -->
+                        <div class="mb-4 sm:mb-6 space-y-2">
                             <button id="clearAllBtn" class="w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors duration-200">
                                 Clear All Images
                             </button>
@@ -429,10 +388,11 @@
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
                         <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Preview</h3>
-                        <div id="previewAreaContainer" class="w-full aspect-[4/3] max-h-[400px] sm:max-h-[600px] border-2 border-dashed border-gray-300 rounded-lg mb-6 bg-gray-100 overflow-hidden flex items-center justify-center relative">
+                        <div id="previewAreaContainer" class="w-full aspect-[4/3] max-h-[400px] sm:max-h-[600px] border-2 border-dashed border-gray-300 rounded-lg mb-6 bg-gray-100 overflow-hidden flex items-center justify-center relative watermark-container">
                             <div id="previewArea" class="w-full h-full relative">
                                 <!-- Images will be dynamically added here -->
                             </div>
+                            <div id="previewWatermark" class="watermark" style="display: none;">Picgle</div>
                         </div>
                         <button id="downloadButton" class="w-full px-4 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary-dark transition-colors duration-200 flex items-center justify-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -444,1006 +404,298 @@
                 </div>
             </div>
         </div>
+
+        <!-- How to Use Tab -->
+        <div id="helpContent" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8 text-center">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">How to Use Picgle</h2>
+                    <p class="text-lg text-gray-600">Learn how to create amazing visual effects with our powerful image processing tools</p>
+                </div>
+
+                <!-- Decompose Guide -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Image Decomposition
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Step-by-Step Guide:</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                                <li>Upload your image using the "Choose File" button</li>
+                                <li>Set the number of pieces (5-15, or unlock more by sharing)</li>
+                                <li>Choose your decomposition shape: Blocks or Voronoi</li>
+                                <li>Adjust block size or Voronoi seed points</li>
+                                <li>Select background color and color processing</li>
+                                <li>Click "Start Decomposition" to generate layers</li>
+                                <li>Download individual layers or use "Download All as ZIP"</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Tips for Best Results:</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li><strong>Blocks:</strong> Use smaller block sizes for more detailed decomposition</li>
+                                <li><strong>Voronoi:</strong> More seed points create smaller, more intricate patterns</li>
+                                <li><strong>Background:</strong> Transparent works best for layering, white/black for special effects</li>
+                                <li><strong>Colors:</strong> Try inverted colors for dramatic artistic effects</li>
+                                <li>Higher resolution images produce better quality results</li>
+                                <li>Large images show progress indicators during processing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blend Guide -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Image Blending
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Step-by-Step Guide:</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                                <li>Upload multiple images using "Choose Files"</li>
+                                <li>Manage layer order by dragging in the Layer Management panel</li>
+                                <li>Apply individual layer effects (invert colors)</li>
+                                <li>Choose a blend mode or use quick presets</li>
+                                <li>Apply global effects if desired</li>
+                                <li>Preview your composition in real-time</li>
+                                <li>Download the final blended image</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Blend Mode Guide:</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li><strong>Normal:</strong> Standard layer stacking</li>
+                                <li><strong>Multiply:</strong> Darkens, great for shadows</li>
+                                <li><strong>Screen:</strong> Lightens, perfect for highlights</li>
+                                <li><strong>Overlay:</strong> Combines multiply and screen</li>
+                                <li><strong>Difference:</strong> Creates unique color inversions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>What image formats are supported?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Picgle supports all major image formats including JPEG, PNG, GIF, WebP, and BMP. For best results, we recommend using high-resolution images in PNG or JPEG format.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>How do I unlock more decomposition pieces?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Simply share Picgle on any social media platform using our share buttons! This helps spread the word about our tool and unlocks the ability to create 5-100 pieces instead of the default 5-15 limit.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>How do I use the ZIP download feature?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">After decomposing an image, you'll see a "Download All as ZIP" button. Click it to download all layers in a convenient ZIP file, perfect for archiving or further editing in other software.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>Is my uploaded image data secure?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Yes! All image processing happens directly in your browser. Your images are never uploaded to our servers, ensuring complete privacy and security of your data.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>Can I use Picgle for commercial projects?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Absolutely! Picgle is free to use for both personal and commercial projects. The only requirement is that you retain any watermarks if you choose to enable them.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>What's the difference between Blocks and Voronoi decomposition?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Blocks creates rectangular grid-based patterns, perfect for pixel art effects. Voronoi creates organic, cell-like patterns based on seed points, ideal for natural-looking decompositions. Try both to see which suits your artistic vision!</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                <span>Why does processing large images take time?</span>
+                                <svg class="w-5 h-5 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="faq-answer">
+                                <p class="text-gray-600">Large images contain millions of pixels that need to be processed. Our progress indicators show you the processing status in real-time. The wait is worth it for the high-quality results!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="aboutContent" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8 text-center">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">About Picgle</h2>
+                    <p class="text-lg text-gray-600">Empowering creativity through advanced image processing</p>
+                </div>
+
+                <!-- About Section -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Our Mission</h3>
+                    <p class="text-gray-600 mb-4">
+                        Picgle is a powerful, free online image processing tool designed to make advanced image manipulation accessible to everyone. Whether you're a professional designer, digital artist, or creative enthusiast, Picgle provides the tools you need to transform your images into stunning visual compositions.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Our platform combines cutting-edge image processing algorithms with an intuitive user interface, allowing you to create unique artistic effects through image decomposition and advanced blending techniques. All processing happens directly in your browser, ensuring your privacy and providing instant results.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Key Features:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                <li>Advanced image decomposition with blocks and Voronoi patterns</li>
+                                <li>Professional layer blending with 16+ blend modes</li>
+                                <li>Real-time preview and instant processing</li>
+                                <li>ZIP download for batch layer export</li>
+                                <li>Progress indicators for large image processing</li>
+                                <li>No registration required - completely free</li>
+                                <li>Privacy-focused - all processing happens locally</li>
+                                <li>Mobile-responsive design for on-the-go editing</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Perfect For:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                <li>Digital artists and designers</li>
+                                <li>Social media content creators</li>
+                                <li>Photography enthusiasts</li>
+                                <li>Educational and research projects</li>
+                                <li>Creative experimentation</li>
+                                <li>Commercial design projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Contact Us</h3>
+                    <p class="text-gray-600 mb-4">
+                        Have questions, suggestions, or feedback? We'd love to hear from you!
+                    </p>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-gray-600">support@picgle.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                            <span class="text-gray-600">www.picgle.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                            <span class="text-gray-600">@picgle</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal Section -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3">Privacy Policy</h3>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Your privacy is important to us. Picgle processes all images locally in your browser - no images are ever uploaded to our servers.
+                        </p>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li>• No personal data collection</li>
+                            <li>• No image storage on our servers</li>
+                            <li>• No tracking cookies</li>
+                            <li>• Complete data privacy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3">Terms of Service</h3>
+                        <p class="text-gray-600 text-sm mb-3">
+                            By using Picgle, you agree to use our service responsibly and in accordance with applicable laws.
+                        </p>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li>• Free for personal and commercial use</li>
+                            <li>• No warranty provided</li>
+                            <li>• User responsible for content</li>
+                            <li>• Service provided "as is"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t mt-8 sm:mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div class="text-center">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">GetPicgle</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Picgle</h2>
                 <p class="text-gray-600 mb-4">Advanced image processing made simple</p>
                 <div class="flex justify-center space-x-6 text-sm text-gray-500">
-                    <span>&copy; 2024 GetPicgle. All rights reserved.</span>
+                    <span>&copy; 2024 Picgle. All rights reserved.</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Tab Management
-        function showTab(tabName) {
-            const tabs = ['decompose', 'blend'];
-            tabs.forEach(tab => {
-                const content = document.getElementById(tab + 'Content');
-                const tabButton = document.getElementById(tab + 'Tab');
-                const tabButtonMobile = document.getElementById(tab + 'TabMobile');
-                
-                if (tab === tabName) {
-                    content.classList.remove('hidden');
-                    tabButton?.classList.add('border-b-2', 'border-primary', 'text-primary');
-                    tabButton?.classList.remove('text-gray-700');
-                    tabButtonMobile?.classList.add('border-b-2', 'border-primary', 'text-primary');
-                    tabButtonMobile?.classList.remove('text-gray-500');
-                } else {
-                    content.classList.add('hidden');
-                    tabButton?.classList.remove('border-b-2', 'border-primary', 'text-primary');
-                    tabButton?.classList.add('text-gray-700');
-                    tabButtonMobile?.classList.remove('border-b-2', 'border-primary', 'text-primary');
-                    tabButtonMobile?.classList.add('text-gray-500');
-                }
-            });
-        }
-
-        // Custom File Input Handling
-        function updateFileLabel(input, labelId, multiple = false) {
-            const label = document.getElementById(labelId);
-            const fileText = label.querySelector('.file-text');
-            
-            if (input.files && input.files.length > 0) {
-                label.classList.add('has-file');
-                if (multiple && input.files.length > 1) {
-                    fileText.textContent = `${input.files.length} files selected`;
-                } else {
-                    const fileName = input.files[0].name;
-                    if (fileName.length > 20) {
-                        fileText.textContent = fileName.substring(0, 17) + '...';
-                    } else {
-                        fileText.textContent = fileName;
-                    }
-                }
-            } else {
-                label.classList.remove('has-file');
-                fileText.textContent = multiple ? 'Choose Files' : 'Choose File';
-            }
-        }
-
-        // === DECOMPOSE FUNCTIONALITY ===
-        const decomposeImageLoader = document.getElementById('decomposeImageLoader');
-        const numPiecesInput = document.getElementById('numPieces');
-        const numPiecesLabel = document.getElementById('numPiecesLabel');
-        const unlockAdvancedDecomposeButton = document.getElementById('unlockAdvancedDecomposeButton');
-        const shapeTypeRadios = document.querySelectorAll('input[name="shapeType"]');
-        const blockSizeGroup = document.getElementById('blockSizeGroup');
-        const blockSizeInput = document.getElementById('blockSize');
-        const voronoiSeedsGroup = document.getElementById('voronoiSeedsGroup');
-        const voronoiSeedsInput = document.getElementById('voronoiSeeds');
-        const decomposeButton = document.getElementById('decomposeButton');
-        const originalImageCanvas = document.getElementById('originalImageCanvas');
-        const originalCtx = originalImageCanvas.getContext('2d');
-        const decomposedContainer = document.getElementById('decomposedImagesContainer');
-        const recombinedCanvas = document.getElementById('recombinedCanvas');
-        const recombinedCtx = recombinedCanvas.getContext('2d', { willReadFrequently: true });
-        const bgButtons = document.querySelectorAll('.bg-btn');
-        const colorNormalButton = document.getElementById('colorNormalButton');
-        const colorInvertButton = document.getElementById('colorInvertButton');
-        const blendModeInfoSpan = document.getElementById('blendModeInfo');
-
-        let originalImage = null;
-        let originalImageData = null;
-        let originalFileName = 'image';
-        let currentDecomposedCanvasesData = [];
-        let selectedDecomposedBgType = 'transparent';
-        let currentBlendMode = 'multiply';
-        let currentShapeType = 'blocks';
-        let colorInversionActive = false;
-        let advancedDecomposeUnlocked = false;
-        let unlockPromptShown = false;
-
-        // File input event listeners
-        decomposeImageLoader.addEventListener('change', (event) => {
-            updateFileLabel(event.target, 'decomposeFileLabel', false);
-            const file = event.target.files[0];
-            if (file) {
-                originalFileName = file.name.split('.').slice(0, -1).join('.') || 'image';
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    originalImage = new Image();
-                    originalImage.onload = () => {
-                        originalImageCanvas.width = originalImage.width;
-                        originalImageCanvas.height = originalImage.height;
-                        originalCtx.drawImage(originalImage, 0, 0);
-                        originalImageData = originalCtx.getImageData(0, 0, originalImage.width, originalImage.height);
-                        updateCanvasBackgroundStyle(recombinedCanvas, true);
-                        currentDecomposedCanvasesData = [];
-                        decomposedContainer.innerHTML = '';
-                        if (recombinedCanvas.width > 0 && recombinedCanvas.height > 0) {
-                            recombinedCtx.clearRect(0, 0, recombinedCanvas.width, recombinedCanvas.height);
-                        }
-                    };
-                    originalImage.onerror = () => {
-                        alert("Cannot load image.");
-                        originalImage = null;
-                        originalImageData = null;
-                    };
-                    originalImage.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Decompose Event Listeners
-        unlockAdvancedDecomposeButton.addEventListener('click', () => {
-            if (!unlockPromptShown) {
-                alert("Demo: Please screenshot this page and share it with friends, then click this button again to unlock.");
-                unlockAdvancedDecomposeButton.textContent = "I've shared, unlock limits";
-                unlockPromptShown = true;
-            } else {
-                advancedDecomposeUnlocked = true;
-                numPiecesInput.max = 100;
-                numPiecesLabel.textContent = "Number of Pieces (5-100, unlocked)";
-                unlockAdvancedDecomposeButton.textContent = "Advanced quantity unlocked";
-                unlockAdvancedDecomposeButton.disabled = true;
-                unlockAdvancedDecomposeButton.classList.add('opacity-50', 'cursor-not-allowed');
-                unlockPromptShown = false;
-            }
-        });
-
-        shapeTypeRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                currentShapeType = e.target.value;
-                if (currentShapeType === 'blocks') {
-                    blockSizeGroup.classList.remove('hidden');
-                    voronoiSeedsGroup.classList.add('hidden');
-                } else {
-                    blockSizeGroup.classList.add('hidden');
-                    voronoiSeedsGroup.classList.remove('hidden');
-                }
-            });
-        });
-
-        bgButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                bgButtons.forEach(btn => {
-                    btn.classList.remove('bg-primary', 'text-white');
-                    btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                });
-                e.target.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                e.target.classList.add('bg-primary', 'text-white');
-                selectedDecomposedBgType = e.target.dataset.bg;
-                updateBlendModeAndInfo();
-                triggerRecombinePreview();
-            });
-        });
-
-        function setColorInversionVisualState(invert) {
-            colorInversionActive = invert;
-            if (invert) {
-                colorNormalButton.classList.remove('bg-primary', 'text-white');
-                colorNormalButton.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                colorInvertButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                colorInvertButton.classList.add('bg-primary', 'text-white');
-            } else {
-                colorNormalButton.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                colorNormalButton.classList.add('bg-primary', 'text-white');
-                colorInvertButton.classList.remove('bg-primary', 'text-white');
-                colorInvertButton.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-            }
-        }
-
-        colorNormalButton.addEventListener('click', () => setColorInversionVisualState(false));
-        colorInvertButton.addEventListener('click', () => setColorInversionVisualState(true));
-        setColorInversionVisualState(false);
-        updateBlendModeAndInfo();
-
-        decomposeButton.addEventListener('click', () => {
-            if (!originalImage || !originalImageData) {
-                alert("Please upload an image first!");
-                return;
-            }
-
-            const numPieces = parseInt(numPiecesInput.value);
-            const invert = colorInversionActive;
-            let actualBgColor;
-            if (selectedDecomposedBgType === 'transparent') actualBgColor = 'transparent';
-            else if (selectedDecomposedBgType === 'white') actualBgColor = '#FFFFFF';
-            else actualBgColor = '#000000';
-
-            const minPieces = 5;
-            const maxPieces = advancedDecomposeUnlocked ? 100 : 15;
-
-            if (isNaN(numPieces) || numPieces < minPieces || numPieces > maxPieces) {
-                alert(`Number of pieces must be between ${minPieces} and ${maxPieces}.`);
-                return;
-            }
-
-            if (currentShapeType === 'blocks') {
-                const blockSize = parseInt(blockSizeInput.value);
-                if (isNaN(blockSize) || blockSize < 1) {
-                    alert("Block size must be at least 1.");
-                    return;
-                }
-                console.log(`Starting block decomposition: ${numPieces} pieces, block size ${blockSize}px, background: ${actualBgColor}, invert: ${invert}`);
-                decomposeImageBlocks(originalImage, numPieces, blockSize, actualBgColor, invert);
-            } else {
-                const numVoronoiSeeds = parseInt(voronoiSeedsInput.value);
-                if (isNaN(numVoronoiSeeds) || numVoronoiSeeds < 500 || numVoronoiSeeds > 10000) {
-                    alert("Voronoi seed points must be between 500 and 10000.");
-                    return;
-                }
-                console.log(`Starting Voronoi decomposition: ${numPieces} pieces, ${numVoronoiSeeds} seeds, background: ${actualBgColor}, invert: ${invert}`);
-                decomposeImageVoronoi(originalImage, numPieces, numVoronoiSeeds, actualBgColor, invert);
-            }
-        });
-
-        // Decompose Helper Functions
-        function updateBlendModeAndInfo() {
-            if (selectedDecomposedBgType === 'transparent' || selectedDecomposedBgType === 'white') {
-                currentBlendMode = 'multiply';
-                blendModeInfoSpan.textContent = '(Multiply blend)';
-            } else if (selectedDecomposedBgType === 'black') {
-                currentBlendMode = 'screen';
-                blendModeInfoSpan.textContent = '(Screen blend)';
-            }
-        }
-
-        function updateCanvasBackgroundStyle(canvas, isTransparent) {
-            if (isTransparent) canvas.classList.add('transparent-bg');
-            else canvas.classList.remove('transparent-bg');
-        }
-
-        function downloadCanvasAsImage(canvas, pieceIndex) {
-            const dataURL = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = dataURL;
-            link.download = `${originalFileName}_${currentShapeType}_piece_${pieceIndex + 1}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function triggerRecombinePreview() {
-            if (currentDecomposedCanvasesData.length > 0 && originalImage) {
-                let actualBgColorForRecombine;
-                if (selectedDecomposedBgType === 'transparent') actualBgColorForRecombine = 'transparent';
-                else if (selectedDecomposedBgType === 'white') actualBgColorForRecombine = '#FFFFFF';
-                else actualBgColorForRecombine = '#000000';
-                recombineForPreview(currentDecomposedCanvasesData, originalImage.width, originalImage.height, actualBgColorForRecombine);
-            }
-        }
-
-        function createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp) {
-            currentDecomposedCanvasesData = [];
-            decomposedContainer.innerHTML = '';
-
-            for (let i = 0; i < numPieces; i++) {
-                const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-                if (actualBgColorForDecomp !== 'transparent') {
-                    ctx.fillStyle = actualBgColorForDecomp;
-                    ctx.fillRect(0, 0, width, height);
-                } else {
-                    ctx.clearRect(0, 0, width, height);
-                }
-                const layerImageData = ctx.getImageData(0, 0, width, height);
-                currentDecomposedCanvasesData.push({ canvas, ctx, imageData: layerImageData });
-
-                const itemContainer = document.createElement('div');
-                itemContainer.className = 'flex flex-col items-center gap-2 p-2 sm:p-3 bg-gray-100 rounded-lg mobile-layer-item';
-                updateCanvasBackgroundStyle(canvas, actualBgColorForDecomp === 'transparent');
-                canvas.className = 'max-w-full max-h-[80px] sm:max-h-[120px] rounded border border-gray-300';
-
-                const downloadBtn = document.createElement('button');
-                downloadBtn.className = 'w-full px-2 py-1 bg-success text-white text-xs rounded hover:bg-success-dark transition-colors duration-200 flex items-center justify-center gap-1';
-                downloadBtn.innerHTML = `<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> Layer ${i + 1}`;
-                downloadBtn.onclick = () => downloadCanvasAsImage(canvas, i);
-
-                itemContainer.appendChild(canvas);
-                itemContainer.appendChild(downloadBtn);
-                decomposedContainer.appendChild(itemContainer);
-            }
-        }
-
-        // Block Decomposition Logic
-        function decomposeImageBlocks(img, numPieces, blockSize, actualBgColorForDecomp, invertColors) {
-            const { width, height } = img;
-            createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp);
-
-            for (let y = 0; y < height; y += blockSize) {
-                for (let x = 0; x < width; x += blockSize) {
-                    const pieceIndex = Math.floor(Math.random() * numPieces);
-                    const targetLayer = currentDecomposedCanvasesData[pieceIndex];
-                    const targetImageData = targetLayer.imageData.data;
-
-                    const currentBlockWidth = Math.min(blockSize, width - x);
-                    const currentBlockHeight = Math.min(blockSize, height - y);
-
-                    for (let blockY = 0; blockY < currentBlockHeight; blockY++) {
-                        for (let blockX = 0; blockX < currentBlockWidth; blockX++) {
-                            const sourcePixelX = x + blockX;
-                            const sourcePixelY = y + blockY;
-
-                            const sourceIndex = (sourcePixelY * width + sourcePixelX) * 4;
-                            const targetIndex = (sourcePixelY * width + sourcePixelX) * 4;
-
-                            let r = originalImageData.data[sourceIndex];
-                            let g = originalImageData.data[sourceIndex + 1];
-                            let b = originalImageData.data[sourceIndex + 2];
-                            const a = originalImageData.data[sourceIndex + 3];
-
-                            if (invertColors) {
-                                r = 255 - r; g = 255 - g; b = 255 - b;
-                            }
-
-                            targetImageData[targetIndex] = r;
-                            targetImageData[targetIndex + 1] = g;
-                            targetImageData[targetIndex + 2] = b;
-                            targetImageData[targetIndex + 3] = a;
-                        }
-                    }
-                }
-            }
-            currentDecomposedCanvasesData.forEach(layer => {
-                layer.ctx.putImageData(layer.imageData, 0, 0);
-            });
-            console.log("Block decomposition complete.");
-            triggerRecombinePreview();
-        }
-
-        // Voronoi Decomposition Logic
-        function decomposeImageVoronoi(img, numPieces, numVoronoiSeeds, actualBgColorForDecomp, invertColors) {
-            const { width, height } = img;
-            createDecomposedCanvases(numPieces, width, height, actualBgColorForDecomp);
-
-            const seeds = [];
-            for (let i = 0; i < numVoronoiSeeds; i++) {
-                seeds.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    layerOwner: Math.floor(Math.random() * numPieces)
-                });
-            }
-
-            const sourceData = originalImageData.data;
-
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    let minDistSq = Infinity;
-                    let closestSeedIndex = -1;
-
-                    for (let i = 0; i < seeds.length; i++) {
-                        const dx = seeds[i].x - x;
-                        const dy = seeds[i].y - y;
-                        const distSq = dx * dx + dy * dy;
-                        if (distSq < minDistSq) {
-                            minDistSq = distSq;
-                            closestSeedIndex = i;
-                        }
-                    }
-
-                    const owningLayerIndex = seeds[closestSeedIndex].layerOwner;
-                    const targetLayer = currentDecomposedCanvasesData[owningLayerIndex];
-                    const targetImageData = targetLayer.imageData.data;
-
-                    const pixelIndex = (y * width + x) * 4;
-
-                    let r = sourceData[pixelIndex];
-                    let g = sourceData[pixelIndex + 1];
-                    let b = sourceData[pixelIndex + 2];
-                    const a = sourceData[pixelIndex + 3];
-
-                    if (invertColors) {
-                        r = 255 - r; g = 255 - g; b = 255 - b;
-                    }
-
-                    targetImageData[pixelIndex] = r;
-                    targetImageData[pixelIndex + 1] = g;
-                    targetImageData[pixelIndex + 2] = b;
-                    targetImageData[pixelIndex + 3] = a;
-                }
-            }
-
-            currentDecomposedCanvasesData.forEach(layer => {
-                layer.ctx.putImageData(layer.imageData, 0, 0);
-            });
-
-            console.log("Voronoi decomposition complete.");
-            triggerRecombinePreview();
-        }
-
-        // Recombine Preview Logic
-        function recombineForPreview(decomposedCanvasesDataToUse, width, height, actualRecombinedBgColor) {
-            if (!decomposedCanvasesDataToUse || decomposedCanvasesDataToUse.length === 0) return;
-
-            recombinedCanvas.width = width;
-            recombinedCanvas.height = height;
-
-            updateCanvasBackgroundStyle(recombinedCanvas, actualRecombinedBgColor === 'transparent');
-            recombinedCtx.clearRect(0, 0, width, height);
-
-            if (actualRecombinedBgColor !== 'transparent') {
-                recombinedCtx.fillStyle = actualRecombinedBgColor;
-                recombinedCtx.fillRect(0, 0, width, height);
-            }
-
-            console.log(`Starting merge preview, blend mode: ${currentBlendMode}, background: ${actualRecombinedBgColor}`);
-            decomposedCanvasesDataToUse.forEach(({ canvas }) => {
-                recombinedCtx.globalCompositeOperation = currentBlendMode;
-                recombinedCtx.drawImage(canvas, 0, 0);
-            });
-            recombinedCtx.globalCompositeOperation = 'source-over';
-            console.log("Merge preview complete.");
-        }
-
-        // === BLEND FUNCTIONALITY ===
-        const blendImageUpload = document.getElementById('blendImageUpload');
-        const blendModeSelect = document.getElementById('blendModeSelect');
-        const globalInvertToggleBtn = document.getElementById('globalInvertToggleBtn');
-        const previewAreaContainer = document.getElementById('previewAreaContainer');
-        const previewArea = document.getElementById('previewArea');
-        const layerManager = document.getElementById('layerManager');
-        const downloadButton = document.getElementById('downloadButton');
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        const whiteBgMultiplyBtn = document.getElementById('whiteBgMultiplyBtn');
-        const blackBgScreenBtn = document.getElementById('blackBgScreenBtn');
-        const advancedBlendToggleBtn = document.getElementById('advancedBlendToggle');
-        const advancedBlendOptionsDiv = document.getElementById('advancedBlendOptions');
-
-        let imageLayers = [];
-        const defaultPreviewBg = '#e5e7eb';
-        let activeBlendConfig = {
-            mode: 'normal',
-            baseBackground: defaultPreviewBg
-        };
-        let isGlobalInverted = false;
-
-        // Blend Event Listeners
-        blendImageUpload.addEventListener('change', (event) => {
-            updateFileLabel(event.target, 'blendFileLabel', true);
-            handleImageUpload(event);
-        });
-        
-        blendModeSelect.addEventListener('change', () => {
-            if (advancedBlendOptionsDiv.classList.contains('hidden')) return;
-            activeBlendConfig.mode = blendModeSelect.value;
-            activeBlendConfig.baseBackground = defaultPreviewBg;
-            updateActiveButtonStates();
-            applyStylesToPreview();
-        });
-        globalInvertToggleBtn.addEventListener('click', () => {
-            isGlobalInverted = !isGlobalInverted;
-            updateActiveButtonStates();
-            applyStylesToPreview();
-        });
-        downloadButton.addEventListener('click', downloadImage);
-        clearAllBtn.addEventListener('click', clearAllImages);
-        whiteBgMultiplyBtn.addEventListener('click', () => setQuickBlendMode('multiply', 'white'));
-        blackBgScreenBtn.addEventListener('click', () => setQuickBlendMode('screen', 'black'));
-        advancedBlendToggleBtn.addEventListener('click', toggleAdvancedMode);
-
-        // Blend Functions
-        function clearAllImages() {
-            imageLayers = [];
-            blendImageUpload.value = '';
-            updateFileLabel(blendImageUpload, 'blendFileLabel', true);
-            activeBlendConfig = {
-                mode: 'normal',
-                baseBackground: defaultPreviewBg
-            };
-            blendModeSelect.value = 'normal';
-            isGlobalInverted = false;
-            if (!advancedBlendOptionsDiv.classList.contains('hidden')) {
-                advancedBlendOptionsDiv.classList.add('hidden');
-            }
-            updateActiveButtonStates();
-            renderAll();
-        }
-
-        function setQuickBlendMode(mode, bgColor) {
-            activeBlendConfig.mode = mode;
-            activeBlendConfig.baseBackground = bgColor;
-            advancedBlendOptionsDiv.classList.add('hidden');
-            blendModeSelect.value = mode;
-            updateActiveButtonStates();
-            applyStylesToPreview();
-        }
-
-        function toggleAdvancedMode() {
-            const isHidden = advancedBlendOptionsDiv.classList.toggle('hidden');
-            if (!isHidden) {
-                activeBlendConfig.mode = blendModeSelect.value;
-                activeBlendConfig.baseBackground = defaultPreviewBg;
-            } else {
-                if (!(activeBlendConfig.baseBackground === 'white' && activeBlendConfig.mode === 'multiply') &&
-                    !(activeBlendConfig.baseBackground === 'black' && activeBlendConfig.mode === 'screen')) {
-                    activeBlendConfig.mode = 'normal';
-                    blendModeSelect.value = 'normal';
-                    activeBlendConfig.baseBackground = defaultPreviewBg;
-                }
-            }
-            updateActiveButtonStates();
-            applyStylesToPreview();
-        }
-
-        function updateActiveButtonStates() {
-            // Quick blend buttons
-            const whiteMultiplyActive = advancedBlendOptionsDiv.classList.contains('hidden') &&
-                activeBlendConfig.mode === 'multiply' && activeBlendConfig.baseBackground === 'white';
-            const blackScreenActive = advancedBlendOptionsDiv.classList.contains('hidden') &&
-                activeBlendConfig.mode === 'screen' && activeBlendConfig.baseBackground === 'black';
-
-            if (whiteMultiplyActive) {
-                whiteBgMultiplyBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                whiteBgMultiplyBtn.classList.add('bg-green-500', 'text-white');
-            } else {
-                whiteBgMultiplyBtn.classList.remove('bg-green-500', 'text-white');
-                whiteBgMultiplyBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-            }
-
-            if (blackScreenActive) {
-                blackBgScreenBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                blackBgScreenBtn.classList.add('bg-green-500', 'text-white');
-            } else {
-                blackBgScreenBtn.classList.remove('bg-green-500', 'text-white');
-                blackBgScreenBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-            }
-
-            // Advanced toggle
-            if (!advancedBlendOptionsDiv.classList.contains('hidden')) {
-                advancedBlendToggleBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                advancedBlendToggleBtn.classList.add('bg-green-500', 'text-white');
-            } else {
-                advancedBlendToggleBtn.classList.remove('bg-green-500', 'text-white');
-                advancedBlendToggleBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-            }
-
-            // Global invert
-            if (isGlobalInverted) {
-                globalInvertToggleBtn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                globalInvertToggleBtn.classList.add('bg-green-500', 'text-white');
-            } else {
-                globalInvertToggleBtn.classList.remove('bg-green-500', 'text-white');
-                globalInvertToggleBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-            }
-        }
-
-        async function handleImageUpload(event) {
-            const files = event.target.files;
-            if (!files.length) return;
-            const newLayers = [];
-            for (const file of files) {
-                if (file.type.startsWith('image/')) {
-                    try {
-                        const src = await readFileAsDataURL(file);
-                        newLayers.push({
-                            id: `layer-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                            src: src,
-                            name: file.name,
-                            filters: { invert: false }
-                        });
-                    } catch (err) {
-                        console.error("File reading error:", err);
-                        alert(`Error reading ${file.name}`);
-                    }
-                }
-            }
-            imageLayers = [...newLayers.reverse(), ...imageLayers];
-            renderAll();
-        }
-
-        function readFileAsDataURL(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.onerror = (err) => reject(err);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function renderAll() {
-            renderLayerManager();
-            renderPreviewImages();
-            applyStylesToPreview();
-        }
-
-        function renderLayerManager() {
-            layerManager.innerHTML = '';
-            if (!imageLayers.length) {
-                layerManager.innerHTML = '<p class="text-center text-gray-500 text-sm">Please upload images first.</p>';
-                return;
-            }
-            imageLayers.forEach((layer) => {
-                const item = document.createElement('div');
-                item.className = 'layer-item flex items-center justify-between p-2 bg-white border border-gray-200 mb-2 rounded cursor-grab shadow-sm hover:shadow-md transition-shadow duration-200 mobile-layer-item';
-                item.draggable = true;
-                item.dataset.id = layer.id;
-
-                const leftSection = document.createElement('div');
-                leftSection.className = 'flex items-center flex-1';
-
-                const thumb = document.createElement('img');
-                thumb.src = layer.src;
-                thumb.className = 'w-8 h-6 sm:w-10 sm:h-8 mobile-layer-thumb object-cover rounded border border-gray-300 mr-2 sm:mr-3';
-                thumb.alt = "thumbnail";
-
-                const name = document.createElement('span');
-                name.className = 'text-xs sm:text-sm text-gray-800 truncate flex-1 pr-2';
-                name.textContent = layer.name.length > 15 ? layer.name.substring(0, 12) + '...' : layer.name;
-
-                const invertBtn = document.createElement('button');
-                invertBtn.textContent = 'Invert';
-                invertBtn.className = 'px-2 py-1 text-xs rounded transition-colors duration-200';
-                if (layer.filters.invert) {
-                    invertBtn.classList.add('bg-green-500', 'text-white');
-                } else {
-                    invertBtn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                }
-                invertBtn.dataset.layerId = layer.id;
-                invertBtn.onclick = function() {
-                    const currentLayer = imageLayers.find(l => l.id === this.dataset.layerId);
-                    if (currentLayer) {
-                        currentLayer.filters.invert = !currentLayer.filters.invert;
-                        if (currentLayer.filters.invert) {
-                            this.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                            this.classList.add('bg-green-500', 'text-white');
-                        } else {
-                            this.classList.remove('bg-green-500', 'text-white');
-                            this.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
-                        }
-                        applyStylesToPreview();
-                    }
-                };
-
-                leftSection.appendChild(thumb);
-                leftSection.appendChild(name);
-                item.appendChild(leftSection);
-                item.appendChild(invertBtn);
-                layerManager.appendChild(item);
-
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('dragleave', handleDragLeave);
-                item.addEventListener('drop', handleDrop);
-                item.addEventListener('dragend', handleDragEnd);
-            });
-        }
-
-        function renderPreviewImages() {
-            previewArea.innerHTML = '';
-            [...imageLayers].reverse().forEach(layer => {
-                const img = document.createElement('img');
-                img.src = layer.src;
-                img.alt = layer.name;
-                img.dataset.id = layer.id;
-                img.className = 'absolute top-0 left-0 w-full h-full object-contain';
-                previewArea.appendChild(img);
-            });
-        }
-
-        function applyStylesToPreview() {
-            previewAreaContainer.style.backgroundColor = activeBlendConfig.baseBackground;
-            const images = previewArea.getElementsByTagName('img');
-            for (let i = 0; i < images.length; i++) {
-                const imgElement = images[i];
-                const layerId = imgElement.dataset.id;
-                const layerData = imageLayers.find(l => l.id === layerId);
-                if (!layerData) continue;
-                imgElement.style.filter = layerData.filters.invert ? 'invert(1)' : 'none';
-                const isBottomLayerInStack = (imageLayers.length > 0 && layerId === imageLayers[imageLayers.length - 1].id);
-                if (isBottomLayerInStack || imageLayers.length <= 1) {
-                    imgElement.style.mixBlendMode = 'normal';
-                } else {
-                    imgElement.style.mixBlendMode = activeBlendConfig.mode;
-                }
-            }
-            previewAreaContainer.style.filter = isGlobalInverted ? 'invert(1)' : 'none';
-        }
-
-        // Drag and Drop Functions
-        let draggedItem = null;
-        let dropIndicator = null;
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.layer-item:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        function handleDragStart(e) {
-            draggedItem = e.target.closest('.layer-item');
-            if (!draggedItem) return;
-            draggedItem.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', draggedItem.dataset.id);
-            if (!dropIndicator) {
-                dropIndicator = document.createElement('div');
-                dropIndicator.className = 'drop-indicator';
-            }
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            const container = layerManager;
-            const afterElement = getDragAfterElement(container, e.clientY);
-            const draggingElement = container.querySelector('.dragging');
-            if (afterElement == null) {
-                if (draggingElement !== container.lastChild && (container.lastChild !== dropIndicator || !container.contains(dropIndicator))) {
-                    container.appendChild(dropIndicator);
-                }
-            } else {
-                if (draggingElement !== afterElement && (afterElement.previousSibling !== draggingElement || !container.contains(dropIndicator))) {
-                    container.insertBefore(dropIndicator, afterElement);
-                }
-            }
-        }
-
-        function handleDragLeave(e) {
-            if (!layerManager.contains(e.relatedTarget) && dropIndicator && dropIndicator.parentNode) {
-                dropIndicator.parentNode.removeChild(dropIndicator);
-            }
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            if (!draggedItem) return;
-            const draggedId = draggedItem.dataset.id;
-            const draggedIndex = imageLayers.findIndex(l => l.id === draggedId);
-            if (draggedIndex === -1) {
-                if (dropIndicator && dropIndicator.parentNode) {
-                    dropIndicator.parentNode.removeChild(dropIndicator);
-                }
-                draggedItem = null;
-                return;
-            }
-            const [draggedLayerData] = imageLayers.splice(draggedIndex, 1);
-            let targetIndex;
-            if (dropIndicator && dropIndicator.parentNode) {
-                targetIndex = Array.from(layerManager.children).indexOf(dropIndicator);
-                imageLayers.splice(targetIndex, 0, draggedLayerData);
-                dropIndicator.parentNode.removeChild(dropIndicator);
-            } else {
-                imageLayers.push(draggedLayerData);
-            }
-            renderAll();
-        }
-
-        function handleDragEnd(e) {
-            if (draggedItem) {
-                draggedItem.classList.remove('dragging');
-            }
-            draggedItem = null;
-            if (dropIndicator && dropIndicator.parentNode) {
-                dropIndicator.parentNode.removeChild(dropIndicator);
-            }
-        }
-
-        async function downloadImage() {
-            if (!imageLayers.length) {
-                alert("No images to download.");
-                return;
-            }
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const previewRect = previewAreaContainer.getBoundingClientRect();
-            canvas.width = previewRect.width > 0 ? previewRect.width : 700;
-            canvas.height = previewRect.height > 0 ? previewRect.height : 525;
-
-            ctx.fillStyle = activeBlendConfig.baseBackground;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const reversedLayers = [...imageLayers].reverse();
-            for (let i = 0; i < reversedLayers.length; i++) {
-                const layer = reversedLayers[i];
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                await new Promise((resolve, reject) => {
-                    img.onload = resolve;
-                    img.onerror = (err) => {
-                        console.error(`Error loading image ${layer.name} for canvas:`, err);
-                        reject(err);
-                    };
-                    img.src = layer.src;
-                });
-                const tempCanvas = document.createElement('canvas');
-                const tempCtx = tempCanvas.getContext('2d');
-                tempCanvas.width = img.naturalWidth || img.width;
-                tempCanvas.height = img.naturalHeight || img.height;
-                if (layer.filters.invert) {
-                    tempCtx.filter = 'invert(1)';
-                }
-                tempCtx.drawImage(img, 0, 0);
-                const hRatio = canvas.width / tempCanvas.width;
-                const vRatio = canvas.height / tempCanvas.height;
-                const ratio = Math.min(hRatio, vRatio);
-                const drawWidth = tempCanvas.width * ratio;
-                const drawHeight = tempCanvas.height * ratio;
-                const drawX = (canvas.width - drawWidth) / 2;
-                const drawY = (canvas.height - drawHeight) / 2;
-                const isBottomLayerInStack = (imageLayers.length > 0 && layer.id === imageLayers[imageLayers.length - 1].id);
-                if (isBottomLayerInStack || imageLayers.length <= 1) {
-                    ctx.globalCompositeOperation = 'source-over';
-                } else {
-                    ctx.globalCompositeOperation = activeBlendConfig.mode;
-                }
-                ctx.drawImage(tempCanvas, drawX, drawY, drawWidth, drawHeight);
-            }
-            ctx.globalCompositeOperation = 'source-over';
-            if (isGlobalInverted) {
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                for (let j = 0; j < data.length; j += 4) {
-                    data[j] = 255 - data[j];
-                    data[j + 1] = 255 - data[j + 1];
-                    data[j + 2] = 255 - data[j + 2];
-                }
-                ctx.putImageData(imageData, 0, 0);
-            }
-            try {
-                const dataURL = canvas.toDataURL('image/png');
-                const a = document.createElement('a');
-                a.href = dataURL;
-                a.download = `getpicgle_blended_image_${Date.now()}.png`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } catch (e) {
-                console.error("Error creating data URL or downloading:", e);
-                alert("Failed to download image.");
-            }
-        }
-
-        // Initialize
-        updateActiveButtonStates();
-        renderLayerManager();
-
-        // Add JSON-LD structured data for SEO
-        const structuredData = {
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            "name": "GetPicgle",
-            "description": "Advanced online image processing tool for decomposing, blending, and editing images with Voronoi patterns and layer management",
-            "url": "https://getpicgle.com",
-            "applicationCategory": "MultimediaApplication",
-            "operatingSystem": "Any",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            },
-            "featureList": [
-                "Image decomposition with blocks and Voronoi patterns",
-                "Advanced layer blending with multiple blend modes",
-                "Color inversion and processing effects",
-                "Drag-and-drop layer management",
-                "High-quality image download"
-            ],
-            "screenshot": "https://getpicgle.com/screenshot.jpg",
-            "author": {
-                "@type": "Organization",
-                "name": "GetPicgle"
-            }
-        };
-
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(structuredData);
-        document.head.appendChild(script);
-
-        // Add performance monitoring
-        window.addEventListener('load', () => {
-            if ('performance' in window) {
-                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-                console.log(`Page load time: ${loadTime}ms`);
-            }
-        });
-
-        // Add error tracking
-        window.addEventListener('error', (e) => {
-            console.error('Global error:', e.error);
-        });
-
-        // Add service worker registration for PWA capabilities (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered'))
-                    .catch(error => console.log('SW registration failed'));
-            });
-        }
-
-        // Mobile-specific optimizations
-        function handleMobileViewport() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-
-        window.addEventListener('resize', handleMobileViewport);
-        window.addEventListener('orientationchange', handleMobileViewport);
-        handleMobileViewport();
-
-        // Touch event handling for better mobile experience
-        let touchStartX = 0;
-        let touchStartY = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!e.target.closest('.layer-item')) return;
-            
-            const touchX = e.touches[0].clientX;
-            const touchY = e.touches[0].clientY;
-            const deltaX = touchX - touchStartX;
-            const deltaY = touchY - touchStartY;
-            
-            // Prevent scrolling when dragging layer items
-            if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 10) {
-                // Allow vertical scrolling in layer manager
-                return;
-            }
-            
-            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Prevent zoom on double tap for canvas elements
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = new Date().getTime();
-            if (now - lastTouchEnd <= 300) {
-                if (e.target.tagName === 'CANVAS') {
-                    e.preventDefault();
-                }
-            }
-            lastTouchEnd = now;
-        }, false);
-    </script>
-
-    <!-- Additional SEO and performance optimization -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-    
-    <!-- Web App Manifest for PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    
-    <!-- Additional meta tags for better indexing -->
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="revisit-after" content="7 days">
-    <meta name="language" content="en">
-    <meta name="geo.region" content="US">
-    <meta name="geo.placename" content="United States">
-    
-    <!-- Open Graph additional tags -->
-    <meta property="og:site_name" content="GetPicgle">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="GetPicgle">
-    
-    <!-- Schema.org markup in head -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "GetPicgle",
-        "url": "https://getpicgle.com",
-        "logo": "https://getpicgle.com/logo.png",
-        "sameAs": [
-            "https://twitter.com/getpicgle",
-            "https://github.com/getpicgle"
-        ]
-    }
-    </script>
+    <!-- JavaScript Files -->
+    <script src="main.js"></script>
+    <script src="decompose.js"></script>
+    <script src="blend.js"></script>
 </body>
 </html>
